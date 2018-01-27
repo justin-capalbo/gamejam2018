@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AdvancedMovementController : MonoBehaviour {
-
-
+public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
 	/// the various states of the character
 	public AdvancedMovementState advancedMovementState { get; private set; }
@@ -671,7 +669,24 @@ public class AdvancedMovementController : MonoBehaviour {
         //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
     }
 
-	public static void UpdateAnimatorBool(Animator animator, string parameterName,bool value)
+    public void Move(float moveH, float moveV)
+    {
+        SetHorizontalMove(moveH);
+        SetVerticalMove(moveV);
+    }
+
+    public void Jump(bool jumpPress, bool jumpRelease)
+    {
+        if (jumpPress) {
+            JumpStart();
+        }
+
+        if (jumpRelease) {
+            JumpStop();
+        }
+    }
+
+    public static void UpdateAnimatorBool(Animator animator, string parameterName,bool value)
 	{
 		//if (animator.HasParameterOfType (parameterName, AnimatorControllerParameterType.Bool))
 			animator.SetBool(parameterName,value);
@@ -686,9 +701,5 @@ public class AdvancedMovementController : MonoBehaviour {
 		//if (animator.HasParameterOfType (parameterName, AnimatorControllerParameterType.Int))
 			animator.SetInteger(parameterName,value);
 	}
-
-
-
-
 
 }

@@ -1,14 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerInputState
-{
-    public float Horizontal { get; set; }
-    public float Vertical { get; set; }
-    public bool JumpDown { get; set; }
-    public bool JumpUp { get; set; }
-}
-
 /// <summary>
 /// This persistent singleton handles the inputs and sends commands to the player
 /// </summary>
@@ -16,8 +8,8 @@ public class PlayerInputManager: MonoBehaviour
 {
     public AdvancedMovementController playerController;
 
-    public AdvancedMovementController movingController;
-    public AdvancedMovementController jumpingController;
+    public IMover movingController;
+    public IJumper jumpingController;
 
     public ActionBank ActionBank;
 
@@ -39,7 +31,8 @@ public class PlayerInputManager: MonoBehaviour
             Horizontal = Input.GetAxis("Horizontal"),
             Vertical = Input.GetAxis("Vertical"),
             JumpDown = Input.GetButtonDown("Jump"),
-            JumpUp = Input.GetButtonUp("Jump")
+            JumpUp = Input.GetButtonUp("Jump"),
+            Broadcast = Input.GetAxis("Broadcast")
         };
     }
 
@@ -50,17 +43,22 @@ public class PlayerInputManager: MonoBehaviour
 	{
         PlayerInputState input = GetInputState();
 
-        movingController.SetHorizontalMove(input.Horizontal);
-        movingController.SetVerticalMove(input.Vertical);
+        movingController.Move(input.Horizontal, input.Vertical);
+        jumpingController.Jump(input.JumpDown, input.JumpUp);
 
-        if (input.JumpDown)
+        if (input.Broadcast > 0)
         {
-            jumpingController.JumpStart();
+
         }
 
-        if(input.JumpUp)
-        {
-            jumpingController.JumpStop();
-        }
-    }	
+    }
+
+    class PlayerInputState
+    {
+        public float Horizontal { get; set; }
+        public float Vertical { get; set; }
+        public bool JumpDown { get; set; }
+        public bool JumpUp { get; set; }
+        public float Broadcast { get; set; }
+    }
 }
