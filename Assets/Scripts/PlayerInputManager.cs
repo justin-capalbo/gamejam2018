@@ -14,11 +14,12 @@ public class PlayerInputState
 /// </summary>
 public class PlayerInputManager: MonoBehaviour
 {
-
     public AdvancedMovementController playerController;
 
     public AdvancedMovementController movingController;
     public AdvancedMovementController jumpingController;
+
+    public ActionBank ActionBank;
 
     public bool controllingPlayer;
 

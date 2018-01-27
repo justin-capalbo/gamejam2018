@@ -5,20 +5,20 @@ using System;
 
 public enum TransmissionType { Move, Jump }
 
-[RequireComponent(typeof(Repository))]
+[RequireComponent(typeof(ActionBank))]
 public class Transmitter : MonoBehaviour
 {
-    public Repository MyRepository;
+    public ActionBank MyActionBank;
 
     public void Awake()
     {
-        MyRepository = GetComponent<Repository>();
+        MyActionBank = GetComponent<ActionBank>();
     }
 
     public void Transmit(TransmissionType t, Receiver targetReceiver)
     {
         //If we don't actually have the ability to transmit, do nothing.
-        if (!MyRepository.Contains(t))
+        if (!MyActionBank.Contains(t))
             return;
 
         //If the receiver cannot receive the transmission, do nothing.
@@ -27,7 +27,7 @@ public class Transmitter : MonoBehaviour
 
         if (targetReceiver.TryReceive(t))
         {
-            MyRepository.Remove(t);
+            MyActionBank.Remove(t);
         }
     }
 }

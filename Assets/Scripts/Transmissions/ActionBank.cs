@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Receiver))]
-public class Repository : MonoBehaviour
+public class ActionBank : MonoBehaviour
 {
     //Transmissions I currently have
     [SerializeField]
