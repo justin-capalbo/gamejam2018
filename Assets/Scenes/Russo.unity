@@ -264,6 +264,41 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: jumpHeight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.jumpEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.hMoveEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.vMoveEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114841366552753884, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: defaultParameters.gravity
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: defaultPermissions.vMoveEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: defaultPermissions.jumpEnabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0, type: 2}
   m_IsPrefabParent: 0
@@ -4011,7 +4046,7 @@ MonoBehaviour:
   playerController: {fileID: 2051962777}
   platformController: {fileID: 566642809}
   ActionBank: {fileID: 0}
-  controllingPlayer: 1
+  controllingPlayer: 0
 --- !u!61 &2051962774
 BoxCollider2D:
   m_ObjectHideFlags: 0

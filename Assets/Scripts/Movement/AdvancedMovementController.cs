@@ -51,6 +51,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	private float verticalMove;
 
 
+
 	/// <summary>
 	///Initializes this instance of the character
 	/// </summary>
