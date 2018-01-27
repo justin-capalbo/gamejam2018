@@ -58,13 +58,16 @@ public class PlayerInputManager: MonoBehaviour
         JumpingController.Jump(input.JumpDown, input.JumpUp);
 
         PlayerMovementController.Broadcast(input.Broadcast);
+        bool wasRecalling = PlayerMovementController.advancedMovementState.recalling;
+        PlayerMovementController.Recall(input.Recall);
+
         if (PlayerMovementController.advancedMovementState.broadcasting)
         {
             Transmitter.HandleBroadcast(input);
         }
 
         if (!PlayerMovementController.advancedMovementState.recalling &&
-             PlayerMovementController.advancedMovementState.recallingPreviously)
+             wasRecalling)
         {
             Transmitter.HandleRecall(input);
         }

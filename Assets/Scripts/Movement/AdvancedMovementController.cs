@@ -370,14 +370,12 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
             advancedMovementState.recalling = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
-            movementPermissions.broadcastEnabled = false;
         }
         else
         {
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.recalling = false;
             movementPermissions.jumpEnabled = true;
-            movementPermissions.broadcastEnabled = true;
             advancedMovementState.canJump = true;
         }
 

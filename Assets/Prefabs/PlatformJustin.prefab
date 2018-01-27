@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1164770695937528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.444446, y: 0.696265, z: 0}
+  m_LocalPosition: {x: 3.83, y: -0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4811330583078136}
@@ -159,8 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicMovementController: {fileID: 114943451050865066}
   defaultPermissions:
-    hMoveEnabled: 0
-    vMoveEnabled: 0
+    hMoveEnabled: 1
+    vMoveEnabled: 1
     jumpEnabled: 1
     broadcastEnabled: 0
   hMovementSpeed: 5
