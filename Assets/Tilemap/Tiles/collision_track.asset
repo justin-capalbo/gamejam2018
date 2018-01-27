@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Floor
+  m_Name: collision_track
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 566671aba5b020d4a9c33b86fff27893, type: 3}
-  m_Color: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 3a7b075fd77e1b14dbfb83b8c1b9ac12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
