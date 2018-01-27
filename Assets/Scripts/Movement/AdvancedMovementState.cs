@@ -14,12 +14,16 @@ public class AdvancedMovementState
 	public bool canMoveFreely{get;set;}
 
 	public int numberOfJumpsLeft;
+    // broadcasting
+    public bool broadcasting { get; set; }
+    public bool broadcastingPreviously { get; set; }
+    public bool recalling { get; set; }
+    public bool recallingPreviously { get; set; }
 
-
-	/// <summary>
-	/// Initializes all states to their default value
-	/// </summary>
-	public void Initialize()
+    /// <summary>
+    /// Initializes all states to their default value
+    /// </summary>
+    public void Initialize()
 	{				
 		canMoveFreely = true;
 	}
