@@ -48,7 +48,7 @@ public class PlayerInputManager: MonoBehaviour
 		
 		if (Input.GetButtonDown ("Dash"))
 		{
-			advancedMovementController.Dash ();
+			advancedMovementController.Dash();
 		}
 	}	
 }

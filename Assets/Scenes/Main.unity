@@ -1030,7 +1030,7 @@ MonoBehaviour:
     smoothMovement: 1
     jumpHeight: 3.025
     jumpMinimumAirTime: 0.1
-    numberOfJumps: 3
+    numberOfJumps: 2
     jumpRestrictions: 1
     jumpIsProportionalToThePressTime: 1
     movementSpeed: 8
