@@ -10,11 +10,9 @@ using System.Collections;
 [Serializable]
 public class AdvancedMovementPermissions
 {
-	public bool runEnabled=true;
-	public bool dashEnabled=true;
-	public bool jumpEnabled=true;
-	public bool crouchEnabled=true;
-	public bool wallJumpEnabled=true;
-	public bool wallClingingEnabled=true;
+    public bool hMoveEnabled = false;
+    public bool vMoveEnabled = false;
+	public bool jumpEnabled=false;
+    public bool broadcastEnabled = false;
 }
 

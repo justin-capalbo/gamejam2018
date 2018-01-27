@@ -6,37 +6,72 @@ using System.Collections;
 /// </summary>
 public class PlayerInputManager: MonoBehaviour
 {
-	private static AdvancedMovementController advancedMovementController;
-	private static BasicMovementController basicMovementController;
-	
+    public AdvancedMovementController playerController;
+    public PlatformController platformController;
+
+    public IMover movingController;
+    public IJumper jumpingController;
+
+    public ActionBank ActionBank;
+
+    public bool controllingPlayer;
+
 	/// <summary>
 	/// We get the player from its tag.
 	/// </summary>
 	void Start()
 	{
-		basicMovementController = GetComponent<BasicMovementController>();
-		advancedMovementController = GetComponent<AdvancedMovementController>();
+        movingController = this.GetComponent<AdvancedMovementController>();
+        jumpingController = this.GetComponent<AdvancedMovementController>();
 	}
     
+    private PlayerInputState GetInputState()
+    {
+        return new PlayerInputState()
+        {
+            Horizontal = Input.GetAxis("Horizontal"),
+            Vertical = Input.GetAxis("Vertical"),
+            JumpDown = Input.GetButtonDown("Jump"),
+            JumpUp = Input.GetButtonUp("Jump"),
+            Broadcast = Input.GetAxis("Broadcast")
+        };
+    }
+
 	/// <summary>
 	/// At update, we check the various commands and send them to the player.
 	/// </summary>
 	void Update()
-	{		
-        /* Move */
-		advancedMovementController.SetHorizontalMove(Input.GetAxis ("Horizontal"));
-		advancedMovementController.SetVerticalMove(Input.GetAxis ("Vertical"));
-		
-        /* Jump */
-		if (Input.GetButtonDown ("Jump")) 
-		{
-     		advancedMovementController.JumpStart();
-		}
-		
-		if (Input.GetButtonUp("Jump"))
-		{
-			advancedMovementController.JumpStop();
-		}
-		
-	}	
+	{
+
+        if(controllingPlayer)
+        {
+            movingController = this.GetComponent<AdvancedMovementController>();
+            jumpingController = this.GetComponent<AdvancedMovementController>();
+        }
+        else
+        {
+            movingController = platformController;
+            jumpingController = platformController;
+        }
+
+        PlayerInputState input = GetInputState();
+
+        movingController.Move(input.Horizontal, input.Vertical);
+        jumpingController.Jump(input.JumpDown, input.JumpUp);
+
+        if (input.Broadcast > 0)
+        {
+
+        }
+
+    }
+
+    class PlayerInputState
+    {
+        public float Horizontal { get; set; }
+        public float Vertical { get; set; }
+        public bool JumpDown { get; set; }
+        public bool JumpUp { get; set; }
+        public float Broadcast { get; set; }
+    }
 }

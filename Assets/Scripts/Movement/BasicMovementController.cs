@@ -81,8 +81,8 @@ public class BasicMovementController : MonoBehaviour {
 	/// Initialization
 	/// </summary>
 	public void Awake()
-	{
-		positionTransform= this.gameObject.transform;
+    {
+        positionTransform = this.gameObject.transform;
 		boxCollider = (BoxCollider2D)GetComponent<BoxCollider2D>();
 		basicMovementState = new BasicMovementState();
 		
@@ -153,7 +153,6 @@ public class BasicMovementController : MonoBehaviour {
 	{
 		_speed.y = y;
 		externalForce.y = y;
-		
 	}
 
     /// <summary>
@@ -161,7 +160,6 @@ public class BasicMovementController : MonoBehaviour {
     /// </summary>	
     public void SetRaysParameters()
     {
-
         rayBoundsRectangle = new Rect(boxCollider.bounds.min.x,
                                        boxCollider.bounds.min.y,
                                        boxCollider.bounds.size.x,
@@ -169,7 +167,6 @@ public class BasicMovementController : MonoBehaviour {
 
         Debug.DrawLine(new Vector2(rayBoundsRectangle.center.x, rayBoundsRectangle.yMin), new Vector2(rayBoundsRectangle.center.x, rayBoundsRectangle.yMax));
         Debug.DrawLine(new Vector2(rayBoundsRectangle.xMin, rayBoundsRectangle.center.y), new Vector2(rayBoundsRectangle.xMax, rayBoundsRectangle.center.y));
-
     }
 
     /// <summary>
@@ -208,15 +205,13 @@ public class BasicMovementController : MonoBehaviour {
         fallSlowFactor = factor;
     }
 
-
-
     /// <summary>
     /// Every frame, we apply the gravity to our character, then check using raycasts if an object's been hit, and modify its new position 
     /// accordingly. When all the checks have been done, we apply that new position. 
     /// </summary>
     private void LateUpdate()
-	{	
-		_speed.y += (currentParameters.gravity + movingPlatformsCurrentGravity) * Time.deltaTime;
+    {
+        _speed.y += (currentParameters.gravity + movingPlatformsCurrentGravity) * Time.deltaTime;
 		
 		if (fallSlowFactor!=0)
 		{

@@ -31960,6 +31960,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e62af32403289c499eb92bf436834aa, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &214589798 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114910433580219660, guid: aece8f32499370f4a80bab0621d7e357,
+    type: 2}
+  m_PrefabInternal: {fileID: 1468418206}
+  m_Script: {fileID: 11500000, guid: e00daeb7ad573664cbc5d15d4903c3a7, type: 3}
 --- !u!1001 &1468418206
 Prefab:
   m_ObjectHideFlags: 0
@@ -32007,6 +32013,16 @@ Prefab:
       propertyPath: InitialTransmissions.Array.data[1]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114474305094894194, guid: aece8f32499370f4a80bab0621d7e357,
+        type: 2}
+      propertyPath: MyActionBank
+      value: 
+      objectReference: {fileID: 214589798}
+    - target: {fileID: 114619961448236062, guid: aece8f32499370f4a80bab0621d7e357,
+        type: 2}
+      propertyPath: MyActionBank
+      value: 
+      objectReference: {fileID: 214589798}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: aece8f32499370f4a80bab0621d7e357, type: 2}

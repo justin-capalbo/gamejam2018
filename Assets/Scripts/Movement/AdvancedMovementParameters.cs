@@ -8,10 +8,6 @@ using System.Collections;
 [Serializable]
 public class AdvancedMovementParameters 
 {
-	[Header("Control Type")]
-	/// If set to true, acceleration / deceleration will take place when moving / stopping
-	public bool smoothMovement=true;
-	
 	[Header("Jump")]
 	/// defines how high the character can jump
 	public float jumpHeight = 3.025f;
@@ -34,30 +30,6 @@ public class AdvancedMovementParameters
 	[Space(10)]	
 	[Header("Speed")]
 	/// basic movement speed
-	public float movementSpeed = 8f;
-	/// the speed of the character when it's crouching
-	public float crouchSpeed = 4f;
-	/// the speed of the character when it's walking
-	public float walkSpeed = 8f;
-	/// the speed of the character when it's running
-	public float runSpeed = 16f;
-	/// the speed of the character when climbing a ladder
-	public float ladderSpeed = 2f;
-	
-	[Space(10)]	
-	[Header("Dash")]
-	/// the duration of dash (in seconds)
-	public float dashDuration = 0.15f;
-	/// the force of the dash
-	public float dashForce = 5f;	
-	/// the duration of the cooldown between 2 dashes (in seconds)
-	public float dashCooldown = 2f;	
-	
-	[Space(10)]	
-	[Header("Walljump")]
-	/// the force of a walljump
-	public float wallJumpForce = 3f;
-	/// the slow factor when wall clinging
-	public float wallClingingSlowFactor=0.6f;
-
+	public float hMovementSpeed = 8f;
+    public float vMovementSpeed = 8f;
 }
