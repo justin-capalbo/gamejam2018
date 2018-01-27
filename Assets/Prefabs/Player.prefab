@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114044788142428840}
   - component: {fileID: 114476231635231646}
   - component: {fileID: 95823834087987994}
-  - component: {fileID: 50414186241024682}
   - component: {fileID: 61913109094066448}
   - component: {fileID: 114271136902727370}
   - component: {fileID: 114910433580219660}
@@ -49,26 +48,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50414186241024682
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710121805701646}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!61 &61913109094066448
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -152,9 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c1ac24ec56d3c4b923402fb0b42c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
+  playerController: {fileID: 114476231635231646}
   platformController: {fileID: 0}
-  ActionBank: {fileID: 0}
+  ActionBank: {fileID: 114910433580219660}
   controllingPlayer: 1
 --- !u!114 &114474305094894194
 MonoBehaviour:
@@ -183,7 +162,7 @@ MonoBehaviour:
   defaultParameters:
     jumpHeight: 3.025
     jumpMinimumAirTime: 0.1
-    numberOfJumps: 2
+    numberOfJumps: 1
     jumpRestrictions: 1
     jumpIsProportionalToThePressTime: 1
     hMovementSpeed: 8
