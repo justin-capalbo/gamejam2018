@@ -24,12 +24,11 @@ GameObject:
   - component: {fileID: 114476231635231646}
   - component: {fileID: 95823834087987994}
   - component: {fileID: 61913109094066448}
-  - component: {fileID: 114271136902727370}
   - component: {fileID: 114910433580219660}
   - component: {fileID: 114474305094894194}
   - component: {fileID: 114619961448236062}
-  - component: {fileID: 114625365934729840}
-  m_Layer: 0
+  - component: {fileID: 114801827765572426}
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1710121805701646}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.02, y: -0, z: -0.01953125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -121,21 +120,6 @@ MonoBehaviour:
   numberOfHorizontalRays: 8
   numberOfVerticalRays: 8
   rayOffset: 0.05
---- !u!114 &114271136902727370
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710121805701646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c1ac24ec56d3c4b923402fb0b42c27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 114476231635231646}
-  platformController: {fileID: 0}
-  ActionBank: {fileID: 114910433580219660}
-  controllingPlayer: 1
 --- !u!114 &114474305094894194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,8 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c20ed0e40054e4aa9311862f1a6f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ValidTransmissions: 0000000001000000
-  MyActionBank: {fileID: 114910433580219660}
+  ActionBank: {fileID: 114910433580219660}
 --- !u!114 &114476231635231646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,7 +149,8 @@ MonoBehaviour:
     numberOfJumps: 1
     jumpRestrictions: 1
     jumpIsProportionalToThePressTime: 1
-    hMovementSpeed: 8
+    walkSpeed: 8
+    broadcastWalkSpeed: 0
     vMovementSpeed: 8
   movementPermissions:
     hMoveEnabled: 1
@@ -184,8 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b236562eff1ea469cd37481568f8dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyActionBank: {fileID: 114910433580219660}
---- !u!114 &114625365934729840
+  transmissionProjectile: {fileID: 114361128884116174, guid: 160bbdebb87527448bff11d7fdd72019,
+    type: 2}
+  recallProjectile: {fileID: 114808760863688612, guid: f06ff7457835fcf499b8a5639f0459d6,
+    type: 2}
+  TransmitCooldown: 1.5
+--- !u!114 &114801827765572426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -193,9 +181,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1710121805701646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5afec8cad9764824c9fbc1f94018818e, type: 3}
+  m_Script: {fileID: 11500000, guid: ec1258ad3659ce64a8568d725789cc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformController: {fileID: 0}
+  PlayerMovementController: {fileID: 0}
+  controllingPlayer: 1
 --- !u!114 &114910433580219660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,6 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTransmissions: 0000000001000000
+  ValidTransmissions: 0000000001000000
+  MaxTotalActions: 2
 --- !u!212 &212689669312468922
 SpriteRenderer:
   m_ObjectHideFlags: 1

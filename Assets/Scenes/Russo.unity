@@ -262,7 +262,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4417659229300202, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
         type: 2}
@@ -286,7 +286,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114841366552753884, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
         type: 2}
-      propertyPath: defaultParameters.gravity	
+      propertyPath: defaultParameters.gravity
       value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
@@ -341,7 +341,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114271136902727370, guid: aece8f32499370f4a80bab0621d7e357,
+    - target: {fileID: 114801827765572426, guid: aece8f32499370f4a80bab0621d7e357,
         type: 2}
       propertyPath: platformController
       value: 
@@ -4058,4 +4058,3 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e62af32403289c499eb92bf436834aa, type: 2}
   m_IsPrefabParent: 0
-  controllingPlayer: 1

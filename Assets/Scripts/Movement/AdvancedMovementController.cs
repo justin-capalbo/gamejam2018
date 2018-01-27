@@ -59,6 +59,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	{		
 		advancedMovementState = new AdvancedMovementState();	
 		basicMovementController = GetComponent<BasicMovementController>();
+        currentParameters.hMovementSpeed = currentParameters.walkSpeed;
 
         //_sceneCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
 
@@ -343,11 +344,43 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
     }
 
-    public void Broadcast()
+    public void Broadcast(float broadcast)
     {
+        if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
+        {
+            advancedMovementState.broadcasting = true;
+            currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
+            movementPermissions.jumpEnabled = false;
+        }
+        else
+        {
+            currentParameters.hMovementSpeed = currentParameters.walkSpeed;
+            advancedMovementState.broadcasting = false;
+            movementPermissions.jumpEnabled = true;
+            advancedMovementState.canJump = true;
+        }
 
+        advancedMovementState.broadcastingPreviously = advancedMovementState.broadcasting; 
     }
 
+    public void Recall(float recall)
+    {
+        if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
+        {
+            advancedMovementState.recalling = true;
+            currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
+            movementPermissions.jumpEnabled = false;
+        }
+        else
+        {
+            currentParameters.hMovementSpeed = currentParameters.walkSpeed;
+            advancedMovementState.recalling = false;
+            movementPermissions.jumpEnabled = true;
+            advancedMovementState.canJump = true;
+        }
+
+        advancedMovementState.recallingPreviously = advancedMovementState.recalling;
+    }
 
     public void Jump(bool jumpPress, bool jumpRelease)
     {
