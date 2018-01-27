@@ -14,7 +14,6 @@ public class AdvancedMovementController : MonoBehaviour {
 	/// the permissions associated to the character
 	public AdvancedMovementPermissions movementPermissions ;
 
-
 	/// is true if the character can jump
 	public bool jumpAuthorized 
 	{ 
@@ -29,8 +28,6 @@ public class AdvancedMovementController : MonoBehaviour {
 			return false; 
 		}
 	}
-
-
 
 	//reference to basic movement controller
 	protected BasicMovementController basicMovementController;
