@@ -24,6 +24,7 @@ public class Transmitter : MonoBehaviour
     public void Awake()
     {
         MyActionBank = GetComponent<ActionBank>();
+        MyReceiver = GetComponent<Receiver>();
         InputManager = GetComponent<PlayerInputManager>();
     }
 
