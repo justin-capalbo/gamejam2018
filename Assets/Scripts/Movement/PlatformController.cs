@@ -90,7 +90,7 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
 
     public void Jump(bool jumpPress, bool jumpRelease)
     {
-        if (!currentPermissions.jumpEnabled) return;
+        if (isJumping) return;
 
         if (jumpPress)
         {
