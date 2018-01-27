@@ -264,10 +264,40 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: jumpHeight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.jumpEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.hMoveEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: movementPersmissions.vMoveEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114841366552753884, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
         type: 2}
-      propertyPath: platformMask.m_Bits
+      propertyPath: defaultParameters.gravity	
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: defaultPermissions.vMoveEnabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192539559563838, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0,
+        type: 2}
+      propertyPath: defaultPermissions.jumpEnabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c99f2b6d1c86b545aa36badcb2ef3a0, type: 2}
@@ -4028,3 +4058,4 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e62af32403289c499eb92bf436834aa, type: 2}
   m_IsPrefabParent: 0
+  controllingPlayer: 1
