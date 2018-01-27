@@ -6,7 +6,6 @@ using System.Collections;
 /// </summary>
 public class PlayerInputManager: MonoBehaviour
 {
-
 	private static AdvancedMovementController advancedMovementController;
 	private static BasicMovementController basicMovementController;
 	
@@ -17,34 +16,29 @@ public class PlayerInputManager: MonoBehaviour
 	{
 		basicMovementController = GetComponent<BasicMovementController>();
 		advancedMovementController = GetComponent<AdvancedMovementController>();
-
 	}
-
-
+    
 	/// <summary>
 	/// At update, we check the various commands and send them to the player.
 	/// </summary>
 	void Update()
 	{		
-
-		
 		advancedMovementController.SetHorizontalMove(Input.GetAxis ("Horizontal"));
 		advancedMovementController.SetVerticalMove(Input.GetAxis ("Vertical"));
 		
 		if ((Input.GetButtonDown ("Run") || Input.GetButton ("Run"))) 
 		{
-			advancedMovementController.RunStart ();		
+			advancedMovementController.RunStart();		
 		}
 		
 		if (Input.GetButtonUp ("Run")) 
 		{
-			advancedMovementController.RunStop ();	
+			advancedMovementController.RunStop();	
 		}
 		
-		
 		if (Input.GetButtonDown ("Jump")) 
-		{;
-     		advancedMovementController.JumpStart ();
+		{
+     		advancedMovementController.JumpStart();
 		}
 		
 		if (Input.GetButtonUp("Jump"))
@@ -56,9 +50,5 @@ public class PlayerInputManager: MonoBehaviour
 		{
 			advancedMovementController.Dash ();
 		}
-	
-
 	}	
-
-
 }

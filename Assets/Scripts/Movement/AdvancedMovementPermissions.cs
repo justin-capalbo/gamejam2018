@@ -10,7 +10,6 @@ using System.Collections;
 [Serializable]
 public class AdvancedMovementPermissions
 {
-
 	public bool runEnabled=true;
 	public bool dashEnabled=true;
 	public bool jumpEnabled=true;

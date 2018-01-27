@@ -150,8 +150,7 @@ public class AdvancedMovementController : MonoBehaviour {
 		}
 		
 	}
-
-
+    
 	/// <summary>
 	/// Sets the horizontal move value.
 	/// </summary>
@@ -169,8 +168,7 @@ public class AdvancedMovementController : MonoBehaviour {
 	{
 		verticalMove=value;
 	}
-
-
+    
     /// <summary>
 	 /// Called at Update(), handles horizontal movement
 	 /// </summary>
@@ -219,8 +217,7 @@ public class AdvancedMovementController : MonoBehaviour {
 			basicMovementController.SetHorizontalForce (normalizedHorizontalSpeed * currentParameters.movementSpeed);
 		}
 	}
-
-
+    
 	/// <summary>
 	/// Called at Update(), handles vertical movement
 	/// </summary>
@@ -277,7 +274,6 @@ public class AdvancedMovementController : MonoBehaviour {
 	{
 		basicMovementController.SetRaysParameters();
 	}
-
 
 	/// <summary>
 	/// Causes the character to start running.
@@ -665,19 +661,18 @@ public class AdvancedMovementController : MonoBehaviour {
 	/// This is called at Update() and sets each of the animators parameters to their corresponding State values
 	/// </summary>
 	private void UpdateAnimator()
-	{	
-		
-		AdvancedMovementController.UpdateAnimatorBool(animatorReference,"Grounded",basicMovementController.basicMovementState.isGrounded);
-        AdvancedMovementController.UpdateAnimatorFloat(animatorReference,"Speed",Mathf.Abs(basicMovementController.speed.x));
-        AdvancedMovementController.UpdateAnimatorFloat(animatorReference,"vSpeed",basicMovementController.speed.y);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference,"Running",advancedMovementState.running);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference,"Dashing",advancedMovementState.dashing);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference,"Crouching",advancedMovementState.crouching);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference,"WallClinging",advancedMovementState.wallClinging);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference,"Diving",advancedMovementState.diving);
-        AdvancedMovementController.UpdateAnimatorBool(animatorReference, "LadderClimbing", advancedMovementState.ladderClimbing);
-        AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
-	}
+	{
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "Grounded", basicMovementController.basicMovementState.isGrounded);
+        //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "Speed", Mathf.Abs(basicMovementController.speed.x));
+        //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "vSpeed", basicMovementController.speed.y);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "Running", advancedMovementState.running);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "Dashing", advancedMovementState.dashing);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "Crouching", advancedMovementState.crouching);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "WallClinging", advancedMovementState.wallClinging);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "Diving", advancedMovementState.diving);
+        //AdvancedMovementController.UpdateAnimatorBool(animatorReference, "LadderClimbing", advancedMovementState.ladderClimbing);
+        //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
+    }
 
 	public static void UpdateAnimatorBool(Animator animator, string parameterName,bool value)
 	{
