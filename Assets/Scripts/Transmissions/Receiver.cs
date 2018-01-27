@@ -27,10 +27,10 @@ public class Receiver : MonoBehaviour
     //If I already have this transmission, don't receive it
     public bool TryReceive(TransmissionType t)
     {
-        if (MyActionBank.Contains(t))
+        if (MyActionBank.HasAction(t))
             return false;
 
-        MyActionBank.Add(t);
+        MyActionBank.AddAction(t);
         return true;
     }
 }

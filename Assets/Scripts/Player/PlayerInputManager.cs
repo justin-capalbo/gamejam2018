@@ -4,15 +4,19 @@ using System.Collections;
 /// <summary>
 /// This persistent singleton handles the inputs and sends commands to the player
 /// </summary>
+[RequireComponent(typeof(AdvancedMovementController))]
+[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(ActionBank))]
 public class PlayerInputManager: MonoBehaviour
 {
-    public AdvancedMovementController playerController;
     public PlatformController platformController;
 
-    public IMover movingController;
-    public IJumper jumpingController;
+    protected IMover movingController;
+    protected IJumper jumpingController;
 
-    public ActionBank ActionBank;
+    protected AdvancedMovementController playerMovementController;
+    protected PlayerController playerController;
+    protected ActionBank ActionBank;
 
     public bool controllingPlayer;
 
@@ -21,9 +25,12 @@ public class PlayerInputManager: MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-        movingController = this.GetComponent<AdvancedMovementController>();
-        jumpingController = this.GetComponent<AdvancedMovementController>();
-	}
+        movingController = GetComponent<AdvancedMovementController>();
+        jumpingController = GetComponent<AdvancedMovementController>();
+        playerMovementController = GetComponent<AdvancedMovementController>();
+        playerController = GetComponent<PlayerController>();
+        ActionBank = GetComponent<ActionBank>();
+    }
     
     private PlayerInputState GetInputState()
     {
@@ -42,36 +49,22 @@ public class PlayerInputManager: MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-
-        if(controllingPlayer)
-        {
-            movingController = this.GetComponent<AdvancedMovementController>();
-            jumpingController = this.GetComponent<AdvancedMovementController>();
-        }
+        if (ActionBank.HasAction(TransmissionType.Jump))
+            jumpingController = playerMovementController;
         else
-        {
-            movingController = platformController;
             jumpingController = platformController;
-        }
+
+        if (ActionBank.HasAction(TransmissionType.Move))
+            movingController = playerMovementController;
+        else
+            movingController = platformController;
 
         PlayerInputState input = GetInputState();
 
         movingController.Move(input.Horizontal, input.Vertical);
         jumpingController.Jump(input.JumpDown, input.JumpUp);
-
-        if (input.Broadcast > 0)
-        {
-
-        }
+        playerController.HandleInput(input);
 
     }
 
-    class PlayerInputState
-    {
-        public float Horizontal { get; set; }
-        public float Vertical { get; set; }
-        public bool JumpDown { get; set; }
-        public bool JumpUp { get; set; }
-        public float Broadcast { get; set; }
-    }
 }

@@ -18,7 +18,7 @@ public class Transmitter : MonoBehaviour
     public void Transmit(TransmissionType t, Receiver targetReceiver)
     {
         //If we don't actually have the ability to transmit, do nothing.
-        if (!MyActionBank.Contains(t))
+        if (!MyActionBank.HasAction(t))
             return;
 
         //If the receiver cannot receive the transmission, do nothing.
@@ -27,7 +27,7 @@ public class Transmitter : MonoBehaviour
 
         if (targetReceiver.TryReceive(t))
         {
-            MyActionBank.Remove(t);
+            MyActionBank.RemoveAction(t);
         }
     }
 }

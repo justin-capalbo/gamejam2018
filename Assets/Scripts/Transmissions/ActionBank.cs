@@ -9,17 +9,17 @@ public class ActionBank : MonoBehaviour
     [SerializeField]
     private List<TransmissionType> currentTransmissions = new List<TransmissionType>();
 
-    public bool Contains(TransmissionType t)
+    public bool HasAction(TransmissionType t)
     {
         return currentTransmissions.Contains(t);
     }
 
-    public void Add(TransmissionType t)
+    public void AddAction(TransmissionType t)
     {
         currentTransmissions.Add(t);
     }
 
-    public bool Remove(TransmissionType t)
+    public bool RemoveAction(TransmissionType t)
     {
         return currentTransmissions.Remove(t);
     }
