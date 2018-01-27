@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - WorldObject
-  - 
-  - 
+  - PlatformTrack
+  - OneWayPlatform
   - 
   - 
   - 
