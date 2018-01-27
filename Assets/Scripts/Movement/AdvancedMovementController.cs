@@ -40,6 +40,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
 	// the current normalized horizontal speed
 	private float normalizedHorizontalSpeed;
+    private float normalizedVerticalSpeed;
 
 	// pressure timed jumps
 	private float jumpButtonPressTime = 0;
@@ -102,18 +103,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		// we handle horizontal and vertical movement				
 		HorizontalMovement();
 		VerticalMovement();			
-			
-			
-		// ladder climbing and wall clinging
-		ClimbLadder();
-		WallClinging ();
-			
-		// If the character is dashing, we cancel the gravity
-		if (advancedMovementState.dashing) 
-		{
-			GravityActive(false);
-			basicMovementController.SetVerticalForce(0);
-		}	
 
 		// if the character can jump we handle press time controlled jumps
 		if (jumpAuthorized)
@@ -123,7 +112,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 				&& (Time.time - jumpButtonPressTime >= currentParameters.jumpMinimumAirTime) 
 			&& (basicMovementController.speed.y > Mathf.Sqrt(Mathf.Abs(basicMovementController.currentParameters.gravity))) 
 				&& (jumpButtonReleased)
-				&& (!jumpButtonPressed||advancedMovementState.jetpacking))
+				&& (!jumpButtonPressed))
 			{
 				jumpButtonReleased=false;	
 				if (currentParameters.jumpIsProportionalToThePressTime)					
@@ -174,51 +163,33 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		{
 			return;		
 		}
-		
+
+        if (!movementPermissions.hMoveEnabled) return;
+
 		// If the value of the horizontal axis is positive, the character must face right.
 		if (horizontalMove>0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-
-			if (!isFacingRight)
-			{
-				Flip();
-			}
 		}		
 		// If it's negative, then we're facing left
 		else if (horizontalMove<-0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-
-			if (isFacingRight)
-			{
-				Flip();
-			}
 		}
 		else
 		{
 			normalizedHorizontalSpeed=0;
 		}
+	
+	    basicMovementController.SetHorizontalForce (normalizedHorizontalSpeed * currentParameters.hMovementSpeed);
 		
-		// we pass the horizontal force that needs to be applied to the controller.
-		var movementFactor = basicMovementController.basicMovementState.isGrounded ? basicMovementController.currentParameters.groundAcceleration : basicMovementController.currentParameters.airAcceleration;
-
-		if (currentParameters.smoothMovement) 
-		{
-			basicMovementController.SetHorizontalForce (Mathf.Lerp (basicMovementController.speed.x, normalizedHorizontalSpeed * currentParameters.movementSpeed, Time.deltaTime * movementFactor));
-		} 
-		else 
-		{
-			basicMovementController.SetHorizontalForce (normalizedHorizontalSpeed * currentParameters.movementSpeed);
-		}
 	}
     
 	/// <summary>
 	/// Called at Update(), handles vertical movement
 	/// </summary>
 	private void VerticalMovement()
-	{
-		
+	{		
 		// Manages the ground touching effect
 		if (basicMovementController.basicMovementState.justGotGrounded)
 		{
@@ -230,76 +201,33 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		{
 			return;
 		}
-		
-		// Crouch Detection : if the player is pressing "down" and if the character is grounded and the crouch action is enabled
-		if ( (verticalMove<-0.1) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.crouchEnabled) )
-		{
-			advancedMovementState.crouching = true;
-			currentParameters.movementSpeed = currentParameters.crouchSpeed;
-			advancedMovementState.running=false;
-		}
-		else
-		{	
 
-			if (!advancedMovementState.running)
-			{
-				currentParameters.movementSpeed = currentParameters.walkSpeed;
-			}
-			advancedMovementState.crouching = false;
-			advancedMovementState.canJump=true;
-				
+        if (!movementPermissions.vMoveEnabled) return;
 
-		}
-		
-		if (advancedMovementState.crouchingPreviously != advancedMovementState.crouching)
-		{
-			Invoke ("RecalculateRays",Time.deltaTime*10);		
-		}
-		
-		advancedMovementState.crouchingPreviously=advancedMovementState.crouching;
-		
-		
-	}
+        // If the value of the horizontal axis is positive, the character must face right.
+        if (verticalMove > 0.1f)
+        {
+            normalizedVerticalSpeed = verticalMove;
+        }
+        // If it's negative, then we're facing left
+        else if (verticalMove < -0.1f)
+        {
+            normalizedVerticalSpeed = verticalMove;
+        }
+        else
+        {
+            normalizedVerticalSpeed = 0;
+        }
 
-	
+        basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
+    }
+
 	/// <summary>
 	/// Use this method to force the controller to recalculate the rays, especially useful when the size of the character has changed.
 	/// </summary>
 	public void RecalculateRays()
 	{
 		basicMovementController.SetRaysParameters();
-	}
-
-	/// <summary>
-	/// Causes the character to start running.
-	/// </summary>
-	public void RunStart()
-	{		
-		// if the Run action is enabled in the permissions, we continue, if not we do nothing
-		if (!movementPermissions.runEnabled)
-			return;
-
-		// if the character is not in a position where it can move freely, we do nothing.
-		if (!advancedMovementState.canMoveFreely)
-			return;
-		
-		// if the player presses the run button and if we're on the ground and not crouching and we can move freely, 
-		// then we change the movement speed in the controller's parameters.
-		if (basicMovementController.basicMovementState.isGrounded && !advancedMovementState.crouching)
-		{
-			currentParameters.movementSpeed = currentParameters.runSpeed;
-			advancedMovementState.running=true;
-		}
-	}
-	
-	/// <summary>
-	/// Causes the character to stop running.
-	/// </summary>
-	public void RunStop()
-	{
-		// if the run button is released, we revert back to the walking speed.
-		currentParameters.movementSpeed = currentParameters.walkSpeed;
-		advancedMovementState.running=false;
 	}
 
 	/// <summary>
@@ -313,9 +241,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 			return;
 		
 		// we check if the character can jump without conflicting with another action
-		if (basicMovementController.basicMovementState.isGrounded 
-			|| advancedMovementState.ladderClimbing 
-			|| advancedMovementState.wallClinging 
+		if (basicMovementController.basicMovementState.isGrounded
 			|| advancedMovementState.numberOfJumpsLeft > 0)
 		{
 			advancedMovementState.canJump = true;
@@ -357,7 +283,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		
 		// we decrease the number of jumps left
 		advancedMovementState.numberOfJumpsLeft=advancedMovementState.numberOfJumpsLeft-1;
-		advancedMovementState.ladderClimbing=false;
 		advancedMovementState.canMoveFreely=true;
 		GravityActive(true);
 		
@@ -366,29 +291,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonReleased=false;
 		
 		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));
-		
-		// we play the jump sound
-		//if (PlayerJumpSfx!=null)
-		//	SoundManager.Instance.PlaySound(PlayerJumpSfx,transform.position);
-		
-		// wall jump
-		float wallJumpDirection;
-		if (advancedMovementState.wallClinging)
-		{
 			
-			// If the character is colliding to the right with something (probably the wall)
-			if (basicMovementController.basicMovementState.isCollidingRight)
-			{
-				wallJumpDirection=-1f;
-			}
-			else
-			{					
-				wallJumpDirection=1f;
-			}
-			basicMovementController.SetForce(new Vector2(wallJumpDirection*currentParameters.wallJumpForce,Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) )));
-			advancedMovementState.wallClinging=false;
-		}	
-		
 	}
 	
 	/// <summary>
@@ -399,237 +302,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressed=false;
 		jumpButtonReleased=true;
 	}
-
-	/// <summary>
-	/// Called at Update(), handles the climbing of ladders
-	/// </summary>	
-	void ClimbLadder()
-	{
-		// if the character is colliding with a ladder
-		if (advancedMovementState.ladderColliding)
-		{
-			// if the player is pressing the up key and not yet climbing a ladder, and not colliding with the top platform and not jetpacking
-			if (verticalMove>0.1 && !advancedMovementState.ladderClimbing && !advancedMovementState.ladderTopColliding  && !advancedMovementState.jetpacking)
-			{			
-				// then the character starts climbing
-				advancedMovementState.ladderClimbing=true;
-				basicMovementController.CollisionsOn();
-				
-				// it can't move freely anymore
-				advancedMovementState.canMoveFreely=false;
-
-				// we initialize the ladder climbing speed to zero
-				advancedMovementState.ladderClimbingSpeed=0;
-				// we make sure the controller won't move
-				basicMovementController.SetHorizontalForce(0);
-				basicMovementController.SetVerticalForce(0);
-				// we disable the gravity
-				GravityActive(false);
-			}			
-			
-			// if the character is climbing the ladder (which means it previously connected with it)
-			if (advancedMovementState.ladderClimbing)
-			{
-
-				// we disable the gravity
-				GravityActive(false);
-				
-				if (!advancedMovementState.ladderTopColliding)
-					basicMovementController.CollisionsOn();
-				
-				// we set the vertical force according to the ladder climbing speed
-				basicMovementController.SetVerticalForce(verticalMove * currentParameters.ladderSpeed);
-				// we set pass that speed to the climbing speed state.
-				advancedMovementState.ladderClimbingSpeed=Mathf.Abs(verticalMove);				
-			}
-			
-			if (!advancedMovementState.ladderTopColliding)
-			{
-				basicMovementController.CollisionsOn();
-			}
-			
-			// if the character is grounded AND climbing
-			if (advancedMovementState.ladderClimbing && basicMovementController.basicMovementState.isGrounded && !advancedMovementState.ladderTopColliding)
-			{			
-				// we make it stop climbing, it has reached the ground.
-				advancedMovementState.ladderColliding=false;
-				advancedMovementState.ladderClimbing=false;
-				advancedMovementState.canMoveFreely=true;
-				advancedMovementState.ladderClimbingSpeed=0;	
-				GravityActive(true);			
-			}			
-		}
-		
-		// If the character is colliding with the top of the ladder and is pressing down and is not on the ladder yet and is standing on the ground, we make it go down.
-		if (advancedMovementState.ladderTopColliding && verticalMove<-0.1 && !advancedMovementState.ladderClimbing && basicMovementController.basicMovementState.isGrounded)
-		{			
-			basicMovementController.CollisionsOff();
-			// we force its position to be a bit lower
-			transform.position=new Vector2(transform.position.x,transform.position.y-0.1f);
-			// we initiate the climbing.
-			advancedMovementState.ladderClimbing=true;
-			advancedMovementState.canMoveFreely=false;
-			advancedMovementState.ladderClimbingSpeed=0;			
-			basicMovementController.SetHorizontalForce(0);
-			basicMovementController.SetVerticalForce(0);
-			GravityActive(false);
-		}		
-	}
-
-	/// <summary>
-	/// Causes the character to dash or dive (depending on the vertical movement at the start of the dash)
-	/// </summary>
-	public void Dash()
-	{	
-		// declarations	
-		float _dashDirection;
-		float _boostForce;
-		
-		// if the Dash action is enabled in the permissions, we continue, if not we do nothing
-		if (!movementPermissions.dashEnabled )
-			return;
-
-		// if the character is not in a position where it can move freely, we do nothing.
-		if (!advancedMovementState.canMoveFreely)
-			return;
-		
-		
-		// If the user presses the dash button and is not aiming down
-		if (verticalMove>-0.8) 
-		{	
-			// if the character is allowed to dash
-			if (advancedMovementState.canDash)
-			{
-				// we set its dashing state to true
-				advancedMovementState.dashing=true;
-				
-				// depending on its direction, we calculate the dash parameters to apply				
-				if (isFacingRight) { _dashDirection=1f; } else { _dashDirection = -1f; }
-
-				_boostForce=_dashDirection*currentParameters.dashForce;
-				advancedMovementState.canDash = false;
-
-				// we launch the boost corountine with the right parameters
-				StartCoroutine( Boost(currentParameters.dashDuration,_boostForce,0,"dash") );
-			}			
-		}
-		// if the user presses the dash button and is aiming down
-		if (verticalMove<-0.8) 
-		{
-			basicMovementController.CollisionsOn();
-			// we start the dive coroutine
-			StartCoroutine(Dive());
-		}		
-		
-	}
-	
-	/// <summary>
-	/// Coroutine used to move the player in a direction over time
-	/// </summary>
-	IEnumerator Boost(float boostDuration, float boostForceX, float boostForceY, string name) 
-	{
-		float time = 0f; 
-		
-		// for the whole duration of the boost
-		while(boostDuration > time) 
-		{
-			// we add the force passed as a parameter
-			if (boostForceX!=0)
-			{
-				basicMovementController.AddForce(new Vector2(boostForceX,0));
-			}
-			if (boostForceY!=0)
-			{
-				basicMovementController.AddForce(new Vector2(0,boostForceY));
-			}
-			time+=Time.deltaTime;
-			// we keep looping for the duration of the boost
-			yield return 0; 
-		}
-		// once the boost is complete, if we were dashing, we make it stop and start the dash cooldown
-		if (name=="dash")
-		{
-			advancedMovementState.dashing=false;
-			GravityActive(true);
-			yield return new WaitForSeconds(currentParameters.dashCooldown); 
-			advancedMovementState.canDash = true; 
-		}	
-		if (name=="wallJump")
-		{
-			// so far we do nothing, but you could use it to trigger a sound or an effect when walljumping
-		}		
-	}
-	
-	/// <summary>
-	/// Coroutine used to make the player dive vertically
-	/// </summary>
-	IEnumerator Dive()
-	{	
-		// Shake parameters : intensity, duration (in seconds) and decay
-		Vector3 ShakeParameters = new Vector3(1.5f,0.5f,1f);
-		advancedMovementState.diving=true;
-
-		// while the player is not grounded, we force it to go down fast
-		while (!basicMovementController.basicMovementState.isGrounded)
-		{
-			basicMovementController.SetVerticalForce(-Mathf.Abs(basicMovementController.currentParameters.gravity)*2);
-			yield return 0; //go to next frame
-		}
-		
-		// once the player is grounded, we shake the camera, and restore the diving state to false
-		//_sceneCamera.Shake(ShakeParameters);		
-		advancedMovementState.diving=false;
-	}
-
-	/// <summary>
-	/// Flips the character and its dependencies (jetpack for example) horizontally
-	/// </summary>
-	protected virtual void Flip()
-	{
-		// Flips the character horizontally
-		transform.localScale = new Vector3(-transform.localScale.x,transform.localScale.y,transform.localScale.z);
-		isFacingRight = transform.localScale.x > 0;
-
-	}
-
-	/// <summary>
-	/// Makes the player stick to a wall when jumping
-	/// </summary>
-	private void WallClinging()
-	{
-		// if the wall clinging action is enabled in the permissions, we continue, if not we do nothing
-		if (!movementPermissions.wallClingingEnabled)
-			return;
-		
-		if (!basicMovementController.basicMovementState.isCollidingLeft && !basicMovementController.basicMovementState.isCollidingRight)
-		{
-			advancedMovementState.wallClinging=false;
-		}
-		
-		// if the character is not in a position where it can move freely, we do nothing.
-		if (!advancedMovementState.canMoveFreely)
-			return;
-		
-		// if the character is in the air and touching a wall and moving in the opposite direction, then we slow its fall
-		
-		if((!basicMovementController.basicMovementState.isGrounded) && ( ( (basicMovementController.basicMovementState.isCollidingRight) && (horizontalMove>0.1f) )	|| 	( (basicMovementController.basicMovementState.isCollidingLeft) && (horizontalMove<-0.1f) )	))
-		{
-			if (basicMovementController.speed.y<0)
-			{
-				advancedMovementState.wallClinging=true;
-				basicMovementController.SlowFall(currentParameters.wallClingingSlowFactor);
-			}
-		}
-		else
-		{
-			advancedMovementState.wallClinging=false;
-			basicMovementController.SlowFall(0f);
-		}
-	}
-
-
-
-
 
 	/// <summary>
 	/// Activates or desactivates the gravity for this character only.
@@ -671,14 +343,20 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     public void Move(float moveH, float moveV)
     {
+        if (!movementPermissions.hMoveEnabled) return;
+
+        print(moveV);
         SetHorizontalMove(moveH);
         SetVerticalMove(moveV);
     }
 
     public void Jump(bool jumpPress, bool jumpRelease)
     {
+        
+        if (!movementPermissions.jumpEnabled) return;
+
         if (jumpPress) {
-            JumpStart();
+            JumpStart();            
         }
 
         if (jumpRelease) {
