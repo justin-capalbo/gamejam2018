@@ -152,6 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c1ac24ec56d3c4b923402fb0b42c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  platformController: {fileID: 0}
+  ActionBank: {fileID: 0}
+  controllingPlayer: 1
 --- !u!114 &114474305094894194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ValidTransmissions: 0000000001000000
-  Repository: {fileID: 114910433580219660}
+  MyActionBank: {fileID: 114910433580219660}
 --- !u!114 &114476231635231646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,29 +181,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultParameters:
-    smoothMovement: 1
     jumpHeight: 3.025
     jumpMinimumAirTime: 0.1
     numberOfJumps: 2
     jumpRestrictions: 1
     jumpIsProportionalToThePressTime: 1
-    movementSpeed: 8
-    crouchSpeed: 4
-    walkSpeed: 8
-    runSpeed: 16
-    ladderSpeed: 2
-    dashDuration: 0.15
-    dashForce: 5
-    dashCooldown: 2
-    wallJumpForce: 3
-    wallClingingSlowFactor: 0.6
+    hMovementSpeed: 8
+    vMovementSpeed: 8
   movementPermissions:
-    runEnabled: 1
-    dashEnabled: 1
+    hMoveEnabled: 1
+    vMoveEnabled: 0
     jumpEnabled: 1
-    crouchEnabled: 1
-    wallJumpEnabled: 1
-    wallClingingEnabled: 1
+    broadcastEnabled: 1
 --- !u!114 &114619961448236062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b236562eff1ea469cd37481568f8dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Repository: {fileID: 114910433580219660}
+  MyActionBank: {fileID: 114910433580219660}
 --- !u!114 &114910433580219660
 MonoBehaviour:
   m_ObjectHideFlags: 1

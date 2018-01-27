@@ -24,6 +24,5 @@ public class BasicMovementParameters
 	/// Maximum angle (in degrees) the character can walk on
 	[Range(0,90)]
 	public float maximumSlopeAngle = 45;	
-    	
 	
 }

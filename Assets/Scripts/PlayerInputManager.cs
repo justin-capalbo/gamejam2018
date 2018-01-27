@@ -7,7 +7,7 @@ using System.Collections;
 public class PlayerInputManager: MonoBehaviour
 {
     public AdvancedMovementController playerController;
-    public AdvancedMovementController platformController;
+    public PlatformController platformController;
 
     public IMover movingController;
     public IJumper jumpingController;
@@ -23,7 +23,6 @@ public class PlayerInputManager: MonoBehaviour
 	{
         movingController = this.GetComponent<AdvancedMovementController>();
         jumpingController = this.GetComponent<AdvancedMovementController>();
-
 	}
     
     private PlayerInputState GetInputState()
