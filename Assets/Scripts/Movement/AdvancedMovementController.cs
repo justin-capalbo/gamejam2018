@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(BasicMovementController))]
 public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
 	/// the various states of the character
@@ -11,13 +12,13 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	public AdvancedMovementParameters currentParameters{get{return overrideParameters ?? defaultParameters;}}
 	/// the permissions associated to the character
 	public AdvancedMovementPermissions movementPermissions ;
-
-	/// is true if the character can jump
-	public bool jumpAuthorized 
+ 
+    /// is true if the character can jump
+    public bool jumpAuthorized 
 	{ 
 		get 
 		{ 
-			if ( (currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpAnywhere) ||  (currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpAnywhereAnyNumberOfTimes) )
+			if ((currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpAnywhere) ||  (currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpAnywhereAnyNumberOfTimes) )
 				return true;
 			
 			if (currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpOnGround)
@@ -33,8 +34,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	private AdvancedMovementParameters overrideParameters;
 	//animator
 	private Animator animatorReference;
-	// true if the player is facing right
-	private bool isFacingRight=true;
 	// storage for original gravity and timer
 	private float originalGravity;
 
@@ -50,9 +49,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	// input axis
 	private float horizontalMove;
 	private float verticalMove;
-
-
-
 
 
 	/// <summary>
@@ -75,15 +71,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		// we get the animator
 		animatorReference = this.gameObject.GetComponent<Animator>();
 
-		// if the width of the character is positive, then it is facing right.
-		isFacingRight = transform.localScale.x > 0;
-		
 		originalGravity = basicMovementController.currentParameters.gravity;
 		
 		// we initialize all the controller's states with their default values.
 		advancedMovementState.Initialize();
 		advancedMovementState.numberOfJumpsLeft=currentParameters.numberOfJumps;
-		
 		
 		advancedMovementState.canJump=true;		
 	}
@@ -92,8 +84,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	/// This is called every frame.
 	/// </summary>
 	protected virtual void Update()
-	{
-        		
+	{        		
 		// we send our various states to the animator.		
 		UpdateAnimator ();
 
@@ -131,15 +122,24 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		if (basicMovementController.basicMovementState.justGotGrounded)
 		{
 			advancedMovementState.numberOfJumpsLeft=currentParameters.numberOfJumps;		
-		}
-		
+		}		
 	}
-    
-	/// <summary>
-	/// Sets the horizontal move value.
-	/// </summary>
-	/// <param name="value">Horizontal move value, between -1 and 1 - positive : will move to the right, negative : will move left </param>
-	public void SetHorizontalMove(float value)
+
+    /** MOVEMENT **/
+
+    public void Move(float moveH, float moveV)
+    {
+        if (!movementPermissions.hMoveEnabled) return;
+
+        SetHorizontalMove(moveH);
+        SetVerticalMove(moveV);
+    }
+
+    /// <summary>
+    /// Sets the horizontal move value.
+    /// </summary>
+    /// <param name="value">Horizontal move value, between -1 and 1 - positive : will move to the right, negative : will move left </param>
+    public void SetHorizontalMove(float value)
 	{
 		horizontalMove=value;
 	}
@@ -222,39 +222,41 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
     }
 
-	/// <summary>
-	/// Use this method to force the controller to recalculate the rays, especially useful when the size of the character has changed.
-	/// </summary>
-	public void RecalculateRays()
-	{
-		basicMovementController.SetRaysParameters();
-	}
 
-	/// <summary>
-	/// Causes the character to start jumping.
-	/// </summary>
-	public void JumpStart()
-	{
-		
-		// if the Jump action is enabled in the permissions, we continue, if not we do nothing. If the player is dead, we do nothing.
-		if (!movementPermissions.jumpEnabled  || !jumpAuthorized)
-			return;
-		
-		// we check if the character can jump without conflicting with another action
-		if (basicMovementController.basicMovementState.isGrounded
-			|| advancedMovementState.numberOfJumpsLeft > 0)
-		{
-			advancedMovementState.canJump = true;
-		} 
-		else 
-		{
-			advancedMovementState.canJump = false;
-		}
-		
-		// if the player can't jump, we do nothing. 
-		if ( (!advancedMovementState.canJump) && !(currentParameters.jumpRestrictions==AdvancedMovementParameters.JumpBehavior.CanJumpAnywhereAnyNumberOfTimes) )
-			return;
-		
+
+
+
+    /** JUMPING **/
+
+    public bool CanJump()
+    {
+        // if the Jump action is enabled in the permissions, we continue, if not we do nothing. If the player is dead, we do nothing.
+        if (!movementPermissions.jumpEnabled || !jumpAuthorized)
+            return false;
+
+        // we check if the character can jump without conflicting with another action
+        if (basicMovementController.basicMovementState.isGrounded
+            || advancedMovementState.numberOfJumpsLeft > 0)
+        {
+            advancedMovementState.canJump = true;
+        }
+        else
+        {
+            advancedMovementState.canJump = false;
+        }
+
+        // if the player can't jump, we do nothing. 
+        if ((!advancedMovementState.canJump) && !(currentParameters.jumpRestrictions == AdvancedMovementParameters.JumpBehavior.CanJumpAnywhereAnyNumberOfTimes))
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Causes the character to start jumping.
+    /// </summary>
+    public void StartJump()
+	{				
 		// if the character is standing on a one way platform and is also pressing the down button,
 		if (verticalMove<0 && basicMovementController.basicMovementState.isGrounded)
 		{
@@ -290,14 +292,13 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
 		
-		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));
-			
+		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
 	}
 	
 	/// <summary>
 	/// Causes the character to stop jumping.
 	/// </summary>
-	public void JumpStop()
+	public void StopJump()
 	{
 		jumpButtonPressed=false;
 		jumpButtonReleased=true;
@@ -341,26 +342,23 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
     }
 
-    public void Move(float moveH, float moveV)
+    public void Broadcast()
     {
-        if (!movementPermissions.hMoveEnabled) return;
 
-        print(moveV);
-        SetHorizontalMove(moveH);
-        SetVerticalMove(moveV);
     }
+
 
     public void Jump(bool jumpPress, bool jumpRelease)
     {
         
         if (!movementPermissions.jumpEnabled) return;
 
-        if (jumpPress) {
-            JumpStart();            
+        if (jumpPress && CanJump()) {
+            StartJump();            
         }
 
         if (jumpRelease) {
-            JumpStop();
+            StopJump();
         }
     }
 
