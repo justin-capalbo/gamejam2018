@@ -23,19 +23,11 @@ public class PlayerInputManager: MonoBehaviour
 	/// </summary>
 	void Update()
 	{		
+        /* Move */
 		advancedMovementController.SetHorizontalMove(Input.GetAxis ("Horizontal"));
 		advancedMovementController.SetVerticalMove(Input.GetAxis ("Vertical"));
 		
-		if ((Input.GetButtonDown ("Run") || Input.GetButton ("Run"))) 
-		{
-			advancedMovementController.RunStart();		
-		}
-		
-		if (Input.GetButtonUp ("Run")) 
-		{
-			advancedMovementController.RunStop();	
-		}
-		
+        /* Jump */
 		if (Input.GetButtonDown ("Jump")) 
 		{
      		advancedMovementController.JumpStart();
@@ -46,9 +38,5 @@ public class PlayerInputManager: MonoBehaviour
 			advancedMovementController.JumpStop();
 		}
 		
-		if (Input.GetButtonDown ("Dash"))
-		{
-			advancedMovementController.Dash();
-		}
 	}	
 }
