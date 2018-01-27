@@ -225,8 +225,16 @@ public class BasicMovementController : MonoBehaviour {
 		basicMovementState.reset(); 
 		
 		SetRaysParameters();
-		
-		CastRaysToTheSides();
+
+        //Detect collisions Horizontal
+        float moveDirX = 1;
+        if ((_speed.x < 0) || (externalForce.x < 0))
+            moveDirX = -1;
+        CastRaysToTheSides(moveDirX);
+        //If not moving, cast in both directions
+        if (_speed.x == 0)
+            CastRaysToTheSides(moveDirX * -1);
+        
 		CastRaysBelow();	
 		CastRaysAbove();
 		
@@ -260,11 +268,12 @@ public class BasicMovementController : MonoBehaviour {
 	/// Casts rays to the sides of the character, from its center axis.
 	/// If we hit a wall/slope, we check its angle and move or not according to it.
 	/// </summary>
-	private void CastRaysToTheSides() 
-	{			
-		float movementDirection=1;	
+	private void CastRaysToTheSides(float dir) 
+	{
+        /* float movementDirection=1;	
 		if ((_speed.x < 0) || (externalForce.x<0))
-			movementDirection = -1;
+			movementDirection = -1; */
+        float movementDirection = dir; 
 		
 		float horizontalRayLength = Mathf.Abs(_speed.x*Time.deltaTime) + rayBoundsRectangle.width/2 + rayOffset*2;
 		
