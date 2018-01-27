@@ -7,30 +7,33 @@ using UnityEngine;
 [RequireComponent(typeof(ActionBank))]
 public class Receiver : MonoBehaviour
 {
-    //Transmissions I am allowed to receive
-    [SerializeField]
-    private List<TransmissionType> ValidTransmissions = new List<TransmissionType>();
 
-    public ActionBank MyActionBank;
+    public ActionBank ActionBank;
 
     public void Awake()
     {
-        MyActionBank = GetComponent<ActionBank>();
+        ActionBank = GetComponent<ActionBank>();
     }
 
     //Determine if I am allowed to receive this transmission
     public bool CanReceive(TransmissionType t)
     {
-        return ValidTransmissions.Contains(t);
+        if (ActionBank.HasAction(t) || ActionBank.Full())
+            return false;
+
+        if (t == TransmissionType.Jump && gameObject.GetComponent(typeof(IJumper)) == null)
+            return false;
+
+        if (t == TransmissionType.Move && gameObject.GetComponent(typeof(IMover)) == null)
+            return false;
+
+        return true;
     }
 
     //If I already have this transmission, don't receive it
-    public bool TryReceive(TransmissionType t)
+    public bool ReceiveTransmission(TransmissionType t)
     {
-        if (MyActionBank.HasAction(t))
-            return false;
-
-        MyActionBank.AddAction(t);
+        ActionBank.AddAction(t);
         return true;
     }
 }

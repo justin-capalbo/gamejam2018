@@ -29,7 +29,11 @@ public class AdvancedMovementParameters
 	
 	[Space(10)]	
 	[Header("Speed")]
-	/// basic movement speed
-	public float hMovementSpeed = 8f;
+    /// basic movement speed
+    public float walkSpeed = 8f;
+    public float broadcastWalkSpeed = 0f;
     public float vMovementSpeed = 8f;
+
+    public float hMovementSpeed { get; set; }
+
 }

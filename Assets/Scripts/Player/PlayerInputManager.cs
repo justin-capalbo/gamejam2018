@@ -5,30 +5,30 @@ using System.Collections;
 /// This persistent singleton handles the inputs and sends commands to the player
 /// </summary>
 [RequireComponent(typeof(AdvancedMovementController))]
-[RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(ActionBank))]
 public class PlayerInputManager: MonoBehaviour
 {
     public PlatformController platformController;
 
-    protected IMover movingController;
-    protected IJumper jumpingController;
+    [HideInInspector]
+    public IMover MovingController { get; set; }
+    [HideInInspector]
+    public IJumper JumpingController { get; set; }
 
-    protected AdvancedMovementController playerMovementController;
-    protected PlayerController playerController;
+    [HideInInspector]
+    public AdvancedMovementController PlayerMovementController;
     protected ActionBank ActionBank;
-
-    public bool controllingPlayer;
+    protected Transmitter Transmitter;
 
 	/// <summary>
 	/// We get the player from its tag.
 	/// </summary>
 	void Start()
 	{
-        movingController = GetComponent<AdvancedMovementController>();
-        jumpingController = GetComponent<AdvancedMovementController>();
-        playerMovementController = GetComponent<AdvancedMovementController>();
-        playerController = GetComponent<PlayerController>();
+        MovingController = GetComponent<AdvancedMovementController>();
+        JumpingController = GetComponent<AdvancedMovementController>();
+        PlayerMovementController = GetComponent<AdvancedMovementController>();
+        Transmitter = GetComponent<Transmitter>();
         ActionBank = GetComponent<ActionBank>();
     }
     
@@ -40,7 +40,9 @@ public class PlayerInputManager: MonoBehaviour
             Vertical = Input.GetAxis("Vertical"),
             JumpDown = Input.GetButtonDown("Jump"),
             JumpUp = Input.GetButtonUp("Jump"),
-            Broadcast = Input.GetAxis("Broadcast")
+            Broadcast = Input.GetAxis("Broadcast"),
+            TransmitMove = Input.GetButtonDown("TransmitMove"),
+            Recall = Input.GetAxis("Recall")            
         };
     }
 
@@ -49,22 +51,23 @@ public class PlayerInputManager: MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-        if (ActionBank.HasAction(TransmissionType.Jump))
-            jumpingController = playerMovementController;
-        else
-            jumpingController = platformController;
-
-        if (ActionBank.HasAction(TransmissionType.Move))
-            movingController = playerMovementController;
-        else
-            movingController = platformController;
-
         PlayerInputState input = GetInputState();
 
-        movingController.Move(input.Horizontal, input.Vertical);
-        jumpingController.Jump(input.JumpDown, input.JumpUp);
-        playerController.HandleInput(input);
+        //Pass input to relevant controllers
+        MovingController.Move(input.Horizontal, input.Vertical);
+        JumpingController.Jump(input.JumpDown, input.JumpUp);
 
+        PlayerMovementController.Broadcast(input.Broadcast);
+        if (PlayerMovementController.advancedMovementState.broadcasting)
+        {
+            Transmitter.HandleBroadcast(input);
+        }
+
+        if (!PlayerMovementController.advancedMovementState.recalling &&
+             PlayerMovementController.advancedMovementState.recallingPreviously)
+        {
+            Transmitter.HandleRecall(input);
+        }
     }
 
 }
