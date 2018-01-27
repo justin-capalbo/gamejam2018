@@ -5114,12 +5114,12 @@ Prefab:
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[0].Y
-      value: -50000000
+      value: -30000000
       objectReference: {fileID: 0}
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[1].X
-      value: 90000000
+      value: -90000000
       objectReference: {fileID: 0}
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
@@ -5134,12 +5134,12 @@ Prefab:
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[2].Y
-      value: -30000000
+      value: -50000000
       objectReference: {fileID: 0}
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].X
-      value: -90000000
+      value: 90000000
       objectReference: {fileID: 0}
     - target: {fileID: 66742617126196866, guid: 2e62af32403289c499eb92bf436834aa,
         type: 2}
@@ -31967,13 +31967,17 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: InitialTransmissions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4191283991947178, guid: aece8f32499370f4a80bab0621d7e357, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.32
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 4191283991947178, guid: aece8f32499370f4a80bab0621d7e357, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.61
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4191283991947178, guid: aece8f32499370f4a80bab0621d7e357, type: 2}
       propertyPath: m_LocalPosition.z
@@ -31999,7 +32003,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 0}
+      propertyPath: InitialTransmissions.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: aece8f32499370f4a80bab0621d7e357, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2098054190
