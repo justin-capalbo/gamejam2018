@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4978486507026616}
   - component: {fileID: 2569400266858914552}
   m_Layer: 31
-  m_Name: CollisionTrack
+  m_Name: Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
