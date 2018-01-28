@@ -133,6 +133,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     /** MOVEMENT **/
 
+    public Vector3 GetSpeed()
+    {
+        return new Vector3(normalizedHorizontalSpeed, normalizedVerticalSpeed);
+    }
+
     public void Move(float moveH, float moveV)
     {
         if (!movementPermissions.hMoveEnabled) return;

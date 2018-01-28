@@ -25,6 +25,8 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
     public Transform parentTransform;
     public float returnSpeed;
 
+    private float currentHSpeed, currentVSpeed;
+
     private void Start()
     {
         originalGravity = basicMovementController.currentParameters.gravity;
@@ -51,7 +53,13 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
             normalizedHorizontalSpeed = 0;
         }
 
-        basicMovementController.SetHorizontalForce(normalizedHorizontalSpeed * hMovementSpeed);
+        currentHSpeed = normalizedHorizontalSpeed * hMovementSpeed;
+        basicMovementController.SetHorizontalForce(currentHSpeed);
+    }
+
+    public Vector3 GetSpeed()
+    {
+        return new Vector3(currentHSpeed, currentVSpeed);
     }
 
     /// <summary>
@@ -77,7 +85,8 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
             normalizedVerticalSpeed = 0;
         }
 
-        basicMovementController.SetVerticalForce(normalizedVerticalSpeed * vMovementSpeed);
+        currentVSpeed = normalizedVerticalSpeed * hMovementSpeed;
+        basicMovementController.SetVerticalForce(currentVSpeed);
     }
     
     public void Move(float moveH, float moveV)
