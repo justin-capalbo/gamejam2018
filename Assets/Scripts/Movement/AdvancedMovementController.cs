@@ -326,9 +326,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressTime=Time.time;
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
-    animatorReference.SetBool("isJumping", true);
+        animatorReference.SetBool("isJumping", true);
 		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
-    AudioSource.PlayClipAtPoint(jumpSound,transform.position);
+        AudioSource.PlayClipAtPoint(jumpSound,transform.position);
 	}
 	
 	/// <summary>

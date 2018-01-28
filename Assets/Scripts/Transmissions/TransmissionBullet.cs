@@ -27,6 +27,8 @@ public class TransmissionBullet : MonoBehaviour
         {
             if(Sender.TryTransmit(TransmissionType, receiver))
             {
+                Sender.SetForeignReceiver(TransmissionType, receiver);
+
                 //Grant the appropriate action controller of the receive to the sender.
                 if (TransmissionType == TransmissionType.Jump)
                     Sender.InputManager.JumpingController = (IJumper)receiver.gameObject.GetComponentInChildren(typeof(IJumper));
