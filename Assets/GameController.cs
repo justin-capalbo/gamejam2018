@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour {
 
     public Text moveText;
     public Text jumpText;
+    public Text controlsText;
+    public Text helpText;
 
     public Canvas canvas;
 
@@ -39,6 +41,7 @@ public class GameController : MonoBehaviour {
     { 
         // initialize gui
         buttonDisplay.SetActive(false);
+        helpText.enabled = false;
         moveText.color = Color.green;
         jumpText.color = Color.green;
 
@@ -49,6 +52,8 @@ public class GameController : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && SceneManager.GetActiveScene().buildIndex == 0)
         {
             titleGui.SetActive(false);
+            controlsText.enabled = false;
+            helpText.enabled = true;
             LoadNextLevel();
             music.Play();
         }
