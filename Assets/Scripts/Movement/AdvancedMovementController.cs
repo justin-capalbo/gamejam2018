@@ -12,7 +12,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	public AdvancedMovementParameters currentParameters{get{return overrideParameters ?? defaultParameters;}}
 	/// the permissions associated to the character
 	public AdvancedMovementPermissions movementPermissions ;
- 
+
+    public AudioClip jumpSound;
+
     /// is true if the character can jump
     public bool jumpAuthorized 
 	{ 
@@ -50,14 +52,17 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	private float horizontalMove;
 	private float verticalMove;
 
+    private bool isFacingRight = true;
 
-	/// <summary>
-	///Initializes this instance of the character
-	/// </summary>
-	void Awake()
+
+    /// <summary>
+    ///Initializes this instance of the character
+    /// </summary>
+    void Awake()
 	{		
 		advancedMovementState = new AdvancedMovementState();	
 		basicMovementController = GetComponent<BasicMovementController>();
+        currentParameters.hMovementSpeed = currentParameters.walkSpeed;
 
         //_sceneCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
 
@@ -72,9 +77,10 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		animatorReference = this.gameObject.GetComponent<Animator>();
 
 		originalGravity = basicMovementController.currentParameters.gravity;
-		
-		// we initialize all the controller's states with their default values.
-		advancedMovementState.Initialize();
+        isFacingRight = transform.localScale.x > 0;
+
+        // we initialize all the controller's states with their default values.
+        advancedMovementState.Initialize();
 		advancedMovementState.numberOfJumpsLeft=currentParameters.numberOfJumps;
 		
 		advancedMovementState.canJump=true;		
@@ -127,6 +133,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     /** MOVEMENT **/
 
+    public Vector3 GetSpeed()
+    {
+        return new Vector3(normalizedHorizontalSpeed, normalizedVerticalSpeed);
+    }
+
     public void Move(float moveH, float moveV)
     {
         if (!movementPermissions.hMoveEnabled) return;
@@ -170,16 +181,29 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		if (horizontalMove>0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-		}		
+            animatorReference.SetBool("isMoving", true);
+
+            if (!isFacingRight)
+            {
+                Flip();
+            }
+        }		
 		// If it's negative, then we're facing left
 		else if (horizontalMove<-0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-		}
+            animatorReference.SetBool("isMoving", true);
+
+            if (isFacingRight)
+            {
+                Flip();
+            }
+        }
 		else
 		{
 			normalizedHorizontalSpeed=0;
-		}
+            animatorReference.SetBool("isMoving", false);
+        }
 	
 	    basicMovementController.SetHorizontalForce (normalizedHorizontalSpeed * currentParameters.hMovementSpeed);
 		
@@ -193,8 +217,16 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		// Manages the ground touching effect
 		if (basicMovementController.basicMovementState.justGotGrounded)
 		{
+            print("just got grounded");
 			//handle touch ground effects	
 		}
+
+        animatorReference.SetBool("isFalling", false);
+        if (basicMovementController.speed.y < 0 && !basicMovementController.basicMovementState.isGrounded)
+        {
+            animatorReference.SetBool("isJumping", false);
+            animatorReference.SetBool("isFalling", true);
+        }
 		
 		// if the character is not in a position where it can move freely, we do nothing.
 		if (!advancedMovementState.canMoveFreely) 
@@ -222,21 +254,30 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
     }
 
-
-
-
+    private void StopMovement()
+    {
+        basicMovementController.SetHorizontalForce(0);
+        basicMovementController.SetVerticalForce(0);
+        animatorReference.SetBool("isMoving", false);
+    }
 
     /** JUMPING **/
 
     public bool CanJump()
     {
+        //<<OAKWOOD ADDED>>
+        if (!advancedMovementState.canMoveFreely)
+            return false;
+
         // if the Jump action is enabled in the permissions, we continue, if not we do nothing. If the player is dead, we do nothing.
         if (!movementPermissions.jumpEnabled || !jumpAuthorized)
             return false;
 
         // we check if the character can jump without conflicting with another action
-        if (basicMovementController.basicMovementState.isGrounded
-            || advancedMovementState.numberOfJumpsLeft > 0)
+        if ((basicMovementController.basicMovementState.isGrounded
+            || advancedMovementState.numberOfJumpsLeft > 0) &&
+            !advancedMovementState.broadcasting &&
+            !advancedMovementState.recalling)
         {
             advancedMovementState.canJump = true;
         }
@@ -256,7 +297,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     /// Causes the character to start jumping.
     /// </summary>
     public void StartJump()
-	{				
+	{
+        if (!advancedMovementState.canMoveFreely) return;
+
 		// if the character is standing on a one way platform and is also pressing the down button,
 		if (verticalMove<0 && basicMovementController.basicMovementState.isGrounded)
 		{
@@ -291,8 +334,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressTime=Time.time;
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
-		
+        animatorReference.SetBool("isJumping", true);
 		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
+        AudioSource.PlayClipAtPoint(jumpSound,transform.position);
 	}
 	
 	/// <summary>
@@ -304,11 +348,19 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonReleased=true;
 	}
 
-	/// <summary>
-	/// Activates or desactivates the gravity for this character only.
-	/// </summary>
-	/// <param name="state">If set to <c>true</c>, activates the gravity. If set to <c>false</c>, turns it off.</param>
-	private void GravityActive(bool state)
+    protected virtual void Flip()
+ 	{
+ 		// Flips the character horizontally
+ 		transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+ 		isFacingRight = transform.localScale.x > 0;
+ 
+ 	}
+
+/// <summary>
+/// Activates or desactivates the gravity for this character only.
+/// </summary>
+/// <param name="state">If set to <c>true</c>, activates the gravity. If set to <c>false</c>, turns it off.</param>
+private void GravityActive(bool state)
 	{
 		if (state==true)
 		{
@@ -342,15 +394,45 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         //AdvancedMovementController.UpdateAnimatorFloat(animatorReference, "LadderClimbingSpeed", advancedMovementState.ladderClimbingSpeed);
     }
 
-    public void Broadcast()
+    public void Broadcast(float broadcast)
     {
+        if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
+        {
+            StopMovement(); //<<OAKWOOD ADDED>>
+            advancedMovementState.broadcasting = true;
+            currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
+            movementPermissions.jumpEnabled = false;
+            animatorReference.SetBool("isBroadcasting", true);
+        }
+        else
+        {
+            currentParameters.hMovementSpeed = currentParameters.walkSpeed;
+            advancedMovementState.broadcasting = false;
+            movementPermissions.jumpEnabled = true;
+            animatorReference.SetBool("isBroadcasting", false);
+        }
 
+        advancedMovementState.broadcastingPreviously = advancedMovementState.broadcasting; 
     }
 
+    public void Recall(float recall)
+    {
+        if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
+        {
+            advancedMovementState.recalling = true;
+            movementPermissions.jumpEnabled = false;
+        }
+        else
+        {
+            advancedMovementState.recalling = false;
+            movementPermissions.jumpEnabled = true;
+        }
+
+        advancedMovementState.recallingPreviously = advancedMovementState.recalling;
+    }
 
     public void Jump(bool jumpPress, bool jumpRelease)
-    {
-        
+    {        
         if (!movementPermissions.jumpEnabled) return;
 
         if (jumpPress && CanJump()) {

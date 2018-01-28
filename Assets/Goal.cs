@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour {
 
+    //[SerializeField]
     private GameController gameController;
 
     private void Start()
@@ -13,7 +14,7 @@ public class Goal : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerInputManager>())
+        if (collision.GetComponent<BasicMovementController>())
         {
             gameController.LoadNextLevel();
         }

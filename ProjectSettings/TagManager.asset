@@ -16,8 +16,8 @@ TagManager:
   - WorldObject
   - PlatformTrack
   - OneWayPlatform
-  - 
-  - 
+  - PlayerBullet
+  - Player
   - 
   - 
   - 

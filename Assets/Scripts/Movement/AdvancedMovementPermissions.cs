@@ -12,7 +12,7 @@ public class AdvancedMovementPermissions
 {
     public bool hMoveEnabled = false;
     public bool vMoveEnabled = false;
-	public bool jumpEnabled=false;
+	public bool jumpEnabled = false;
     public bool broadcastEnabled = false;
 }
 
