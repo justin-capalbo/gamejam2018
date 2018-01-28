@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour {
         helpText.enabled = false;
         moveText.color = Color.green;
         jumpText.color = Color.green;
+        Cursor.visible = false;
 
     }
 
