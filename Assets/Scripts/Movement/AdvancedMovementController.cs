@@ -414,19 +414,13 @@ private void GravityActive(bool state)
     {
         if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
-            advancedMovementState.canMoveFreely = false;
-            StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.recalling = true;
-            currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
         }
         else
         {
-            advancedMovementState.canMoveFreely = true;
-            currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.recalling = false;
             movementPermissions.jumpEnabled = true;
-            advancedMovementState.canJump = true;
         }
 
         advancedMovementState.recallingPreviously = advancedMovementState.recalling;
