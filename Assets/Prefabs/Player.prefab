@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 82808893530079764}
   m_Layer: 12
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,6 +287,8 @@ MonoBehaviour:
     jumpEnabled: 1
     broadcastEnabled: 1
   jumpSound: {fileID: 8300000, guid: d9b2c540083780749b01f6920cad8a33, type: 3}
+  basicMovementController: {fileID: 0}
+  animatorReference: {fileID: 0}
 --- !u!114 &114619961448236062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -329,6 +331,7 @@ MonoBehaviour:
   currentTransmissions: 0000000001000000
   ValidTransmissions: 
   MaxTotalActions: 2
+  recallEffect: {fileID: 0}
 --- !u!212 &212031416956619416
 SpriteRenderer:
   m_ObjectHideFlags: 1

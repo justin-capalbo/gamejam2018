@@ -27,10 +27,14 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
 
     private float currentHSpeed, currentVSpeed;
 
+    protected BasicMovementController playerMovement;
+
     private void Start()
     {
         originalGravity = basicMovementController.currentParameters.gravity;
         GravityActive(false);
+
+        playerMovement = GameObject.FindWithTag("Player").GetComponent<BasicMovementController>();
     }
 
 
@@ -56,10 +60,10 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
         currentHSpeed = normalizedHorizontalSpeed * hMovementSpeed;
         basicMovementController.SetHorizontalForce(currentHSpeed);
 
-        if(GameController.S.playerRef.basicMovementController.standingOn == this.gameObject &&
-            GameController.S.playerRef.basicMovementController.basicMovementState.isGrounded)
+        if(playerMovement.standingOn == this.gameObject &&
+            playerMovement.basicMovementState.isGrounded)
         {
-            GameController.S.playerRef.basicMovementController.SetHorizontalForce(currentHSpeed);
+            playerMovement.SetHorizontalForce(currentHSpeed);
         }
     }
 
