@@ -120,9 +120,9 @@ public class Transmitter : MonoBehaviour
                     if (type == TransmissionType.Move)
                     {
                         GameController.S.moveText.color = Color.green;
+                        InputManager.MovingController.StopMovement();
                         InputManager.MovingController = InputManager.PlayerMovementController;
                     }
-                        
 
                 }
             }

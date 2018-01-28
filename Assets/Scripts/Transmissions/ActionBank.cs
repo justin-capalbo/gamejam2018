@@ -15,6 +15,10 @@ public class ActionBank : MonoBehaviour
 
     public int MaxTotalActions = 1;
 
+
+    public GameObject recallEffect;
+
+
     public bool HasAction(TransmissionType t)
     {
         return currentTransmissions.Contains(t);
@@ -27,6 +31,9 @@ public class ActionBank : MonoBehaviour
 
     public bool RemoveAction(TransmissionType t)
     {
+        // Spawn a feedback object
+        if (recallEffect)
+            Instantiate(recallEffect,transform.position,Quaternion.identity);
         return currentTransmissions.Remove(t);
     }
 

@@ -34,6 +34,7 @@ public class Receiver : MonoBehaviour
     public bool ReceiveTransmission(TransmissionType t)
     {
         ActionBank.AddAction(t);
+
         return true;
     }
 }

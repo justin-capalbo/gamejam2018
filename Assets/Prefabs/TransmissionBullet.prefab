@@ -188,6 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5defc8bf12444418c56e46e2199646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transmitEffect: {fileID: 1515008023081046, guid: bef7055971fbe0b4e82a45c871c83f3c,
+    type: 2}
   maxLife: 10
 --- !u!212 &212570861397977034
 SpriteRenderer:

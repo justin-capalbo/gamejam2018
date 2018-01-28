@@ -13,7 +13,7 @@ public class Killzone : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<GameObject>().GetComponent<PlayerInputManager>())
+        if (collision.GetComponent<PlayerInputManager>())
         {
             gameController.RestartLevel();
         }
