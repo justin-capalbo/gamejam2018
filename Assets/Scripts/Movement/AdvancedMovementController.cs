@@ -213,11 +213,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		if (basicMovementController.basicMovementState.justGotGrounded)
 		{
             print("just got grounded");
-            animatorReference.SetBool("isFalling", false);
 			//handle touch ground effects	
 		}
 
-        if(basicMovementController.speed.y < 0 && !basicMovementController.basicMovementState.isGrounded)
+        animatorReference.SetBool("isFalling", false);
+        if (basicMovementController.speed.y < 0 && !basicMovementController.basicMovementState.isGrounded)
         {
             animatorReference.SetBool("isJumping", false);
             animatorReference.SetBool("isFalling", true);
@@ -253,6 +253,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     {
         basicMovementController.SetHorizontalForce(0);
         basicMovementController.SetVerticalForce(0);
+        animatorReference.SetBool("isMoving", false);
     }
 
     /** JUMPING **/
@@ -268,8 +269,10 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
             return false;
 
         // we check if the character can jump without conflicting with another action
-        if (basicMovementController.basicMovementState.isGrounded
-            || advancedMovementState.numberOfJumpsLeft > 0)
+        if ((basicMovementController.basicMovementState.isGrounded
+            || advancedMovementState.numberOfJumpsLeft > 0) &&
+            !advancedMovementState.broadcasting &&
+            !advancedMovementState.recalling)
         {
             advancedMovementState.canJump = true;
         }
@@ -391,7 +394,6 @@ private void GravityActive(bool state)
         if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
             StopMovement(); //<<OAKWOOD ADDED>>
-            advancedMovementState.canMoveFreely = false; //<<OAKWOOD ADDED>>
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
@@ -399,11 +401,9 @@ private void GravityActive(bool state)
         }
         else
         {
-            advancedMovementState.canMoveFreely = true; //<<OAKWOOD ADDED>>
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.broadcasting = false;
             movementPermissions.jumpEnabled = true;
-            advancedMovementState.canJump = true;
             animatorReference.SetBool("isBroadcasting", false);
         }
 
@@ -433,8 +433,7 @@ private void GravityActive(bool state)
     }
 
     public void Jump(bool jumpPress, bool jumpRelease)
-    {
-        
+    {        
         if (!movementPermissions.jumpEnabled) return;
 
         if (jumpPress && CanJump()) {
