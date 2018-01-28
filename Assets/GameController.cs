@@ -5,11 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
+    public static GameController S;
+
     private AudioSource music;
+
+    public AdvancedMovementController playerRef;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (S != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            S = this;
+        }
+
+        //DontDestroyOnLoad(gameObject);
         music = GetComponent<AudioSource>();
     }
 

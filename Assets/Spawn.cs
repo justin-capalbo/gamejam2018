@@ -12,6 +12,7 @@ public class Spawn : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Instantiate(player,new Vector3(transform.position.x,transform.position.y+yOffset,0f),Quaternion.identity);		
+        GameObject newPlayer = Instantiate(player,new Vector3(transform.position.x,transform.position.y+yOffset,0f),Quaternion.identity);
+        GameController.S.playerRef = newPlayer.GetComponent<AdvancedMovementController>();
 	}
 }
