@@ -68,17 +68,17 @@ public class Transmitter : MonoBehaviour
 
         Vector2 targetVector = new Vector2(input.Horizontal, input.Vertical).normalized * bulletSpeed;
         if (input.JumpDown && CanTransmit(TransmissionType.Jump) && targetVector != new Vector2(0,0))
-            ShootTransmissionBullet(TransmissionType.Jump, targetVector);
+            ShootTransmissionBullet(TransmissionType.Jump, targetVector,tPointer.transform.rotation);
 
         if (input.TransmitMove && CanTransmit(TransmissionType.Move) && targetVector != new Vector2(0,0)) 
-            ShootTransmissionBullet(TransmissionType.Move, targetVector);
+            ShootTransmissionBullet(TransmissionType.Move, targetVector,tPointer.transform.rotation);
 
     }
 
-    public void ShootTransmissionBullet(TransmissionType type, Vector2 targetVector)
+    public void ShootTransmissionBullet(TransmissionType type, Vector2 targetVector, Quaternion rot)
     {
         // Acquire vector for shot
-        TransmissionBullet t = Instantiate(transmissionProjectile, gameObject.transform.position, Quaternion.identity);
+        TransmissionBullet t = Instantiate(transmissionProjectile, gameObject.transform.position, rot);
         t.TransmissionType = type;
         t.Sender = this;
         t.GetComponent<Rigidbody2D>().velocity = targetVector;
