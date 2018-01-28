@@ -12,7 +12,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	public AdvancedMovementParameters currentParameters{get{return overrideParameters ?? defaultParameters;}}
 	/// the permissions associated to the character
 	public AdvancedMovementPermissions movementPermissions ;
- 
+
+    public AudioClip jumpSound;
+
     /// is true if the character can jump
     public bool jumpAuthorized 
 	{ 
@@ -247,15 +249,19 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
     }
 
-
-
-
+    private void StopMovement()
+    {
+        basicMovementController.SetHorizontalForce(0);
+        basicMovementController.SetVerticalForce(0);
+    }
 
     /** JUMPING **/
 
     public bool CanJump()
     {
-        if (!advancedMovementState.canMoveFreely) return false;
+        //<<OAKWOOD ADDED>>
+        if (!advancedMovementState.canMoveFreely)
+            return false;
 
         // if the Jump action is enabled in the permissions, we continue, if not we do nothing. If the player is dead, we do nothing.
         if (!movementPermissions.jumpEnabled || !jumpAuthorized)
@@ -320,9 +326,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressTime=Time.time;
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
-
-        animatorReference.SetBool("isJumping", true);
+    animatorReference.SetBool("isJumping", true);
 		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
+    AudioSource.PlayClipAtPoint(jumpSound,transform.position);
 	}
 	
 	/// <summary>
@@ -390,15 +396,15 @@ private void GravityActive(bool state)
     {
         if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
-            StopMovement();
-            advancedMovementState.canMoveFreely = false;
+            StopMovement(); //<<OAKWOOD ADDED>>
+            advancedMovementState.canMoveFreely = false; //<<OAKWOOD ADDED>>
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
         }
         else
         {
-            advancedMovementState.canMoveFreely = true;
+            advancedMovementState.canMoveFreely = true; //<<OAKWOOD ADDED>>
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.broadcasting = false;
             movementPermissions.jumpEnabled = true;
@@ -412,8 +418,8 @@ private void GravityActive(bool state)
     {
         if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
-            StopMovement();
             advancedMovementState.canMoveFreely = false;
+            StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.recalling = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
