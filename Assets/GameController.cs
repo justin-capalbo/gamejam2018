@@ -57,6 +57,9 @@ public class GameController : MonoBehaviour {
             LoadNextLevel();
             music.Play();
         }
+
+        if (Input.GetButtonDown("Cancel"))
+            Application.Quit();
     }
 
     public void LoadLevel(string name) {
