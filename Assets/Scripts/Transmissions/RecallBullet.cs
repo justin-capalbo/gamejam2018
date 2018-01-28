@@ -22,7 +22,7 @@ public class RecallBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var targetReceiver = collision.GetComponent<Receiver>();
+        var targetReceiver = collision.GetComponentInChildren<Receiver>();
         if (targetReceiver)
         {
             if (targetReceiver.ActionBank.Count() > 0)
@@ -36,7 +36,7 @@ public class RecallBullet : MonoBehaviour
                     //Grant the appropriate action controller of the receive to the sender.
                     if (type == TransmissionType.Jump)
                         OwningTransmitter.InputManager.JumpingController = OwningTransmitter.InputManager.PlayerMovementController;
-
+                    
                     if (type == TransmissionType.Move)
                         OwningTransmitter.InputManager.MovingController = OwningTransmitter.InputManager.PlayerMovementController; 
 

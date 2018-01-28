@@ -285,6 +285,11 @@ Prefab:
       propertyPath: platformController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114910433580219660, guid: aece8f32499370f4a80bab0621d7e357,
+        type: 2}
+      propertyPath: MaxTotalActions
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aece8f32499370f4a80bab0621d7e357, type: 2}
   m_IsPrefabParent: 0
