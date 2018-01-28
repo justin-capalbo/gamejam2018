@@ -11,8 +11,6 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
     public BasicMovementController basicMovementController;
 
     [Header("Movement Parameters")]
-    public AdvancedMovementPermissions defaultPermissions;
-    private AdvancedMovementPermissions currentPermissions;
     public float hMovementSpeed;
     public float vMovementSpeed;
 
@@ -27,14 +25,12 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
     private void Start()
     {
         originalGravity = basicMovementController.currentParameters.gravity;
-        currentPermissions = defaultPermissions;
         GravityActive(false);
     }
 
 
     private void HorizontalMovement(float horizontalMove)
     {
-        if (!currentPermissions.hMoveEnabled) return;
 
         float normalizedHorizontalSpeed = 0;
         // If the value of the horizontal axis is positive, the character must face right.
@@ -60,7 +56,6 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
     /// </summary>
     private void VerticalMovement(float verticalMove)
     {
-        if (!currentPermissions.vMoveEnabled) return;
 
         float normalizedVerticalSpeed = 0;
 
@@ -110,7 +105,6 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
         isJumping = true;
 
         GravityActive(true);
-        currentPermissions.vMoveEnabled = false;
         basicMovementController.SetVerticalForce(Mathf.Sqrt(2f * jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity)));
 
         while(basicMovementController.speed.y > 0)
@@ -136,7 +130,6 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
         basicMovementController.SetVerticalForce(0);
         GravityActive(false);
         isJumping = false;
-        currentPermissions.vMoveEnabled = defaultPermissions.vMoveEnabled;
 
     }
 
