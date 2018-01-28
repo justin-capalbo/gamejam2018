@@ -395,6 +395,7 @@ private void GravityActive(bool state)
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
+            animatorReference.SetBool("isBroadcasting", true);
         }
         else
         {
@@ -403,6 +404,7 @@ private void GravityActive(bool state)
             advancedMovementState.broadcasting = false;
             movementPermissions.jumpEnabled = true;
             advancedMovementState.canJump = true;
+            animatorReference.SetBool("isBroadcasting", false);
         }
 
         advancedMovementState.broadcastingPreviously = advancedMovementState.broadcasting; 
