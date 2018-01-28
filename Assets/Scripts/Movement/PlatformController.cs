@@ -22,6 +22,9 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
 
     private float originalGravity;
 
+    public Transform parentTransform;
+    public float returnSpeed;
+
     private void Start()
     {
         originalGravity = basicMovementController.currentParameters.gravity;
@@ -100,11 +103,11 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
 
     private IEnumerator JumpStart()
     {
-        print("jumping");
-        jumpOriginPoint = transform.position;
+        jumpOriginPoint = parentTransform.position;
         isJumping = true;
 
         GravityActive(true);
+        basicMovementController.CollisionsOff();
         basicMovementController.SetVerticalForce(Mathf.Sqrt(2f * jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity)));
 
         while(basicMovementController.speed.y > 0)
@@ -117,18 +120,18 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
 
     public IEnumerator SlowFall()
     {
-        print("transform: " + transform.position.y);
-        print("origin: " + jumpOriginPoint.y);
+        basicMovementController.SetVerticalForce(0);
+        GravityActive(false);
 
-        while (transform.position.y > jumpOriginPoint.y)
+        while (parentTransform.position.y > jumpOriginPoint.y)
         {
-            print("wat");
+            parentTransform.position = Vector2.MoveTowards(parentTransform.position, jumpOriginPoint, returnSpeed);
+            //parentTransform.position = new Vector2(parentTransform.position.x, Mathf.Lerp(parentTransform.position.y, jumpOriginPoint.y, .02f));
+            //print("wat");
             yield return null;
         }
 
-        print("out of coroutine");
-        basicMovementController.SetVerticalForce(0);
-        GravityActive(false);
+        basicMovementController.CollisionsOn();
         isJumping = false;
 
     }

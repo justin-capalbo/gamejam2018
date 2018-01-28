@@ -93,7 +93,7 @@ public class Transmitter : MonoBehaviour
 
     private Vector2 getBulletVelocity()
     {
-        return new Vector2(20f, 0f);
+        return new Vector2(10f, 0f);
     }
 
     IEnumerator Cooldown()

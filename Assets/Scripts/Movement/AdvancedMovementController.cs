@@ -52,12 +52,13 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	private float horizontalMove;
 	private float verticalMove;
 
+    private bool isFacingRight = true;
 
 
-	/// <summary>
-	///Initializes this instance of the character
-	/// </summary>
-	void Awake()
+    /// <summary>
+    ///Initializes this instance of the character
+    /// </summary>
+    void Awake()
 	{		
 		advancedMovementState = new AdvancedMovementState();	
 		basicMovementController = GetComponent<BasicMovementController>();
@@ -76,9 +77,10 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		animatorReference = this.gameObject.GetComponent<Animator>();
 
 		originalGravity = basicMovementController.currentParameters.gravity;
-		
-		// we initialize all the controller's states with their default values.
-		advancedMovementState.Initialize();
+        isFacingRight = transform.localScale.x > 0;
+
+        // we initialize all the controller's states with their default values.
+        advancedMovementState.Initialize();
 		advancedMovementState.numberOfJumpsLeft=currentParameters.numberOfJumps;
 		
 		advancedMovementState.canJump=true;		
@@ -174,16 +176,29 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		if (horizontalMove>0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-		}		
+            animatorReference.SetBool("isMoving", true);
+
+            if (!isFacingRight)
+            {
+                Flip();
+            }
+        }		
 		// If it's negative, then we're facing left
 		else if (horizontalMove<-0.1f)
 		{
 			normalizedHorizontalSpeed = horizontalMove;
-		}
+            animatorReference.SetBool("isMoving", true);
+
+            if (isFacingRight)
+            {
+                Flip();
+            }
+        }
 		else
 		{
 			normalizedHorizontalSpeed=0;
-		}
+            animatorReference.SetBool("isMoving", false);
+        }
 	
 	    basicMovementController.SetHorizontalForce (normalizedHorizontalSpeed * currentParameters.hMovementSpeed);
 		
@@ -197,8 +212,16 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		// Manages the ground touching effect
 		if (basicMovementController.basicMovementState.justGotGrounded)
 		{
+            print("just got grounded");
+            animatorReference.SetBool("isFalling", false);
 			//handle touch ground effects	
 		}
+
+        if(basicMovementController.speed.y < 0 && !basicMovementController.basicMovementState.isGrounded)
+        {
+            animatorReference.SetBool("isJumping", false);
+            animatorReference.SetBool("isFalling", true);
+        }
 		
 		// if the character is not in a position where it can move freely, we do nothing.
 		if (!advancedMovementState.canMoveFreely) 
@@ -236,7 +259,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     public bool CanJump()
     {
-
         //<<OAKWOOD ADDED>>
         if (!advancedMovementState.canMoveFreely)
             return false;
@@ -267,7 +289,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     /// Causes the character to start jumping.
     /// </summary>
     public void StartJump()
-	{				
+	{
+        if (!advancedMovementState.canMoveFreely) return;
+
 		// if the character is standing on a one way platform and is also pressing the down button,
 		if (verticalMove<0 && basicMovementController.basicMovementState.isGrounded)
 		{
@@ -302,9 +326,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressTime=Time.time;
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
-		
-		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));
-        AudioSource.PlayClipAtPoint(jumpSound,transform.position);
+    animatorReference.SetBool("isJumping", true);
+		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
+    AudioSource.PlayClipAtPoint(jumpSound,transform.position);
 	}
 	
 	/// <summary>
@@ -316,11 +340,25 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonReleased=true;
 	}
 
-	/// <summary>
-	/// Activates or desactivates the gravity for this character only.
-	/// </summary>
-	/// <param name="state">If set to <c>true</c>, activates the gravity. If set to <c>false</c>, turns it off.</param>
-	private void GravityActive(bool state)
+    protected virtual void Flip()
+ 	{
+ 		// Flips the character horizontally
+ 		transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+ 		isFacingRight = transform.localScale.x > 0;
+ 
+ 	}
+
+    private void StopMovement()
+    {
+        basicMovementController.SetHorizontalForce(0);
+        basicMovementController.SetVerticalForce(0);
+    }
+
+/// <summary>
+/// Activates or desactivates the gravity for this character only.
+/// </summary>
+/// <param name="state">If set to <c>true</c>, activates the gravity. If set to <c>false</c>, turns it off.</param>
+private void GravityActive(bool state)
 	{
 		if (state==true)
 		{
@@ -380,6 +418,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     {
         if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            advancedMovementState.canMoveFreely = false;
             StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.recalling = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
@@ -387,6 +426,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         }
         else
         {
+            advancedMovementState.canMoveFreely = true;
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.recalling = false;
             movementPermissions.jumpEnabled = true;
