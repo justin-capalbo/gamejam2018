@@ -114,7 +114,10 @@ public class Transmitter : MonoBehaviour
                         InputManager.JumpingController = InputManager.PlayerMovementController;
 
                     if (type == TransmissionType.Move)
+                    {
+                        InputManager.MovingController.StopMovement();
                         InputManager.MovingController = InputManager.PlayerMovementController;
+                    }
 
                 }
             }

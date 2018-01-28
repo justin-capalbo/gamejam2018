@@ -39,7 +39,10 @@ public class TransmissionBullet : MonoBehaviour
                     Sender.InputManager.JumpingController = (IJumper)receiver.gameObject.GetComponentInChildren(typeof(IJumper));
 
                 if (TransmissionType == TransmissionType.Move)
+                {
+                    Sender.InputManager.MovingController.StopMovement();
                     Sender.InputManager.MovingController = (IMover)receiver.gameObject.GetComponentInChildren(typeof(IMover));
+                }
 
                 Destroy(gameObject);
             }
