@@ -59,10 +59,9 @@ public class PlayerInputManager: MonoBehaviour
         bool wasRecalling = PlayerMovementController.advancedMovementState.recalling;
         PlayerMovementController.Recall(input.Recall);
 
-        if (PlayerMovementController.advancedMovementState.broadcasting)
-        {
-            Transmitter.HandleBroadcast(input);
-        }
+        
+        Transmitter.HandleBroadcast(input, PlayerMovementController.advancedMovementState.broadcasting);
+        
 
         if (!PlayerMovementController.advancedMovementState.recalling &&
              wasRecalling)
