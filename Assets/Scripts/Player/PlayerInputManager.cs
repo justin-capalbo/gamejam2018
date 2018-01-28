@@ -66,6 +66,20 @@ public class PlayerInputManager: MonoBehaviour
 
         PlayerMovementController.Broadcast(input.Broadcast);
         Transmitter.HandleBroadcast(input, PlayerMovementController.advancedMovementState.broadcasting);
+
+        if(Input.GetButtonDown("Help"))
+        {
+            if(GameController.S.controlsText.enabled)
+            {
+                GameController.S.controlsText.enabled = false;
+                GameController.S.helpText.enabled = true;
+            }
+            else
+            {
+                GameController.S.controlsText.enabled = true;
+                GameController.S.helpText.enabled = false;
+            }
+        }
     }
 
 }
