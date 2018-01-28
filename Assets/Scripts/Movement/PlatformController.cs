@@ -63,9 +63,10 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
         }
     }
 
-    public Vector3 GetSpeed()
+    public void StopMovement()
     {
-        return new Vector3(currentHSpeed, currentVSpeed);
+        basicMovementController.SetHorizontalForce(0);
+        basicMovementController.SetVerticalForce(0);
     }
 
     /// <summary>

@@ -133,11 +133,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     /** MOVEMENT **/
 
-    public Vector3 GetSpeed()
-    {
-        return new Vector3(normalizedHorizontalSpeed, normalizedVerticalSpeed);
-    }
-
     public void Move(float moveH, float moveV)
     {
         if (!movementPermissions.hMoveEnabled) return;
@@ -254,10 +249,10 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
     }
 
-    private void StopMovement()
+    public void StopMovement()
     {
-        basicMovementController.SetHorizontalForce(0);
-        basicMovementController.SetVerticalForce(0);
+        SetHorizontalMove(0);
+        SetVerticalMove(0);
         animatorReference.SetBool("isMoving", false);
     }
 

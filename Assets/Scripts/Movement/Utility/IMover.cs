@@ -7,6 +7,6 @@ public interface IMover
 {
     void Move(float h, float v);
 
-    Vector3 GetSpeed();
+    void StopMovement();
 }
 
