@@ -9,6 +9,8 @@ public class TransmissionBullet : MonoBehaviour
     public TransmissionType TransmissionType { get; set; }
     public Transmitter Sender { get; set; }
 
+    public GameObject transmitEffect;
+
     private float lifetime;
     public float maxLife = 10f;
 
@@ -27,6 +29,9 @@ public class TransmissionBullet : MonoBehaviour
         {
             if(Sender.TryTransmit(TransmissionType, receiver))
             {
+                // Spawn a feedback object
+                Instantiate(transmitEffect,collision.transform.position,Quaternion.identity);
+
                 Sender.SetForeignReceiver(TransmissionType, receiver);
 
                 //Grant the appropriate action controller of the receive to the sender.
