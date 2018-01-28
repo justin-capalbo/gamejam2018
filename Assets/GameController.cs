@@ -5,9 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
+    private AudioSource music;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        music = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump") && SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            LoadNextLevel();
+            music.Play();
+        }
     }
 
     public void LoadLevel(string name) {
