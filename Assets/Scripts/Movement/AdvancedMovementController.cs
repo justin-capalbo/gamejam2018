@@ -232,6 +232,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 
     public bool CanJump()
     {
+
+        //<<OAKWOOD ADDED>>
+        if (!advancedMovementState.canMoveFreely)
+            return false;
+
         // if the Jump action is enabled in the permissions, we continue, if not we do nothing. If the player is dead, we do nothing.
         if (!movementPermissions.jumpEnabled || !jumpAuthorized)
             return false;
@@ -348,12 +353,14 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     {
         if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            advancedMovementState.canMoveFreely = false; //<<OAKWOOD ADDED>>
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;
         }
         else
         {
+            advancedMovementState.canMoveFreely = true; //<<OAKWOOD ADDED>>
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.broadcasting = false;
             movementPermissions.jumpEnabled = true;
