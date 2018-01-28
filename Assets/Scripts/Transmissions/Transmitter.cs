@@ -37,8 +37,16 @@ public class Transmitter : MonoBehaviour
     }
         
     //Only called if we are broadcasting
-    public void HandleBroadcast(PlayerInputState input) 
+    public void HandleBroadcast(PlayerInputState input, bool broadcasting) 
     {
+        if (!broadcasting)
+        {
+            if (tPointer.activeSelf)
+                tPointer.SetActive(false);
+
+            return;
+        }
+
         if (!transmittingSound.isPlaying) //<<OAKWOOD ADDED>> 
             transmittingSound.Play();        
         
@@ -54,31 +62,27 @@ public class Transmitter : MonoBehaviour
             tPointer.transform.rotation = Quaternion.Slerp(tPointer.transform.rotation, Quaternion.Euler(0,0,targetAngle), 10f * Time.deltaTime);
         } 
         else
-            tPointer.SetActive(false);       
+            tPointer.SetActive(false);
 
+
+        Vector2 targetVector = new Vector2(input.Horizontal, input.Vertical).normalized * bulletSpeed;
+        if (input.JumpDown && CanTransmit(TransmissionType.Jump) && targetVector != new Vector2(0,0))
+            ShootTransmissionBullet(TransmissionType.Jump, targetVector);
+
+        if (input.TransmitMove && CanTransmit(TransmissionType.Move) && targetVector != new Vector2(0,0)) 
+            ShootTransmissionBullet(TransmissionType.Move, targetVector);
+
+    }
+
+    public void ShootTransmissionBullet(TransmissionType type, Vector2 targetVector)
+    {
         // Acquire vector for shot
-        var targetVector = new Vector2(input.Horizontal,input.Vertical).normalized * bulletSpeed;
-
-        if (input.JumpDown && CanTransmit(TransmissionType.Jump) && targetVector != new Vector2(0,0)) //<<OAKWOOD ADDED>>
-        {
-            //Instantiate a "Jump" Transmission 
-            TransmissionBullet t = Instantiate(transmissionProjectile,gameObject.transform.position,Quaternion.identity);
-            t.TransmissionType = TransmissionType.Jump;
-            t.Sender = this;
-            t.GetComponent<Rigidbody2D>().velocity = targetVector;
-            StartCoroutine(Cooldown());            
-        }
-
-        if (input.TransmitMove && CanTransmit(TransmissionType.Move) && targetVector != new Vector2(0,0)) //<<OAKWOOD ADDED>>
-        {
-            //Instantiate a "Move" Transmission 
-            TransmissionBullet t = Instantiate(transmissionProjectile,gameObject.transform.position,Quaternion.identity);
-            t.TransmissionType = TransmissionType.Move;
-            t.Sender = this;
-            t.GetComponent<Rigidbody2D>().velocity = targetVector;
-            StartCoroutine(Cooldown());
-        }
-
+        TransmissionBullet t = Instantiate(transmissionProjectile, gameObject.transform.position, Quaternion.identity);
+        t.TransmissionType = type;
+        t.Sender = this;
+        t.GetComponent<Rigidbody2D>().velocity = targetVector;
+        StartCoroutine(Cooldown());
+        tPointer.SetActive(false);
     }
 
     public void HandleRecall(PlayerInputState input)
@@ -89,6 +93,7 @@ public class Transmitter : MonoBehaviour
         r.OwningTransmitter = this;
         r.GetComponent<Rigidbody2D>().velocity = getBulletVelocity();
         StartCoroutine(Cooldown());
+        tPointer.SetActive(false);
     }
 
     private Vector2 getBulletVelocity()
