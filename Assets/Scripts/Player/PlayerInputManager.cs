@@ -53,11 +53,12 @@ public class PlayerInputManager: MonoBehaviour
 
         //Pass input to relevant controllers
         
-        if (!PlayerMovementController.advancedMovementState.recalling &&
-            !PlayerMovementController.advancedMovementState.broadcasting)
+        if (!PlayerMovementController.advancedMovementState.broadcasting)
         {
             MovingController.Move(input.Horizontal, input.Vertical);
-            JumpingController.Jump(input.JumpDown, input.JumpUp);
+
+            if (!PlayerMovementController.advancedMovementState.recalling)
+                JumpingController.Jump(input.JumpDown, input.JumpUp);
         }
 
         PlayerMovementController.Recall(input.Recall);
