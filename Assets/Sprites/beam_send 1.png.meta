@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: f6953b632234a5f438e27a01be652159
-timeCreated: 1517149492
+guid: 11fd37136326e074090643a27244bd76
+timeCreated: 1517149895
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: beam_send_0
-    21300002: beam_send_1
-    21300004: beam_send_2
-    21300006: beam_send_3
+    21300000: beam_send 1_0
+    21300002: beam_send 1_1
+    21300004: beam_send 1_2
+    21300006: beam_send 1_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -84,82 +84,59 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: beam_send_0
+      name: beam_send 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: beam_send 1_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: beam_send 1_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: beam_send 1_3
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 16
+        width: 16
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 8}
-        - {x: -16, y: -8}
-        - {x: 14, y: -8}
-        - {x: 16, y: -6}
-        - {x: 16, y: 8}
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: beam_send_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 8}
-        - {x: -16, y: -8}
-        - {x: 12, y: -8}
-        - {x: 16, y: -5}
-        - {x: 16, y: 7}
-        - {x: 15, y: 8}
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: beam_send_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 8}
-        - {x: -16, y: -8}
-        - {x: 15, y: -8}
-        - {x: 16, y: -6}
-        - {x: 16, y: 8}
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: beam_send_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 8}
-        - {x: -16, y: -6}
-        - {x: -14, y: -8}
-        - {x: 14, y: -8}
-        - {x: 16, y: -6}
-        - {x: 16, y: 6}
-        - {x: 13, y: 8}
+      outline: []
       physicsShape: []
       tessellationDetail: 0
     outline: []

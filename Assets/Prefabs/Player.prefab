@@ -242,7 +242,7 @@ MonoBehaviour:
     m_Bits: 256
   movingPlatformMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   edgeColliderPlatformMask:
     serializedVersion: 2
     m_Bits: 1024
