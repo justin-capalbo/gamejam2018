@@ -172,7 +172,7 @@ MonoBehaviour:
     type: 2}
   recallProjectile: {fileID: 114808760863688612, guid: f06ff7457835fcf499b8a5639f0459d6,
     type: 2}
-  TransmitCooldown: 1.5
+  TransmitCooldown: 1
 --- !u!114 &114801827765572426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,9 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1258ad3659ce64a8568d725789cc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformController: {fileID: 0}
   PlayerMovementController: {fileID: 0}
-  controllingPlayer: 1
 --- !u!114 &114910433580219660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,8 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTransmissions: 0000000001000000
-  ValidTransmissions: 0000000001000000
-  MaxTotalActions: 2
+  ValidTransmissions: 
+  MaxTotalActions: 1
 --- !u!212 &212689669312468922
 SpriteRenderer:
   m_ObjectHideFlags: 1

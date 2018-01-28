@@ -29,10 +29,10 @@ public class TransmissionBullet : MonoBehaviour
             {
                 //Grant the appropriate action controller of the receive to the sender.
                 if (TransmissionType == TransmissionType.Jump)
-                    Sender.InputManager.JumpingController = (IJumper)receiver.gameObject.GetComponent(typeof(IJumper));
+                    Sender.InputManager.JumpingController = (IJumper)receiver.gameObject.GetComponentInChildren(typeof(IJumper));
 
                 if (TransmissionType == TransmissionType.Move)
-                    Sender.InputManager.MovingController = (IMover)receiver.gameObject.GetComponent(typeof(IMover));
+                    Sender.InputManager.MovingController = (IMover)receiver.gameObject.GetComponentInChildren(typeof(IMover));
 
                 Destroy(gameObject);
             }

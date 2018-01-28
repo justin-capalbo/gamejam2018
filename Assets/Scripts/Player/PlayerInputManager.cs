@@ -8,8 +8,6 @@ using System.Collections;
 [RequireComponent(typeof(ActionBank))]
 public class PlayerInputManager: MonoBehaviour
 {
-    public PlatformController platformController;
-
     [HideInInspector]
     public IMover MovingController { get; set; }
     [HideInInspector]

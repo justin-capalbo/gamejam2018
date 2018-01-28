@@ -21,10 +21,10 @@ public class Receiver : MonoBehaviour
         if (ActionBank.HasAction(t) || ActionBank.Full())
             return false;
 
-        if (t == TransmissionType.Jump && gameObject.GetComponent(typeof(IJumper)) == null)
+        if (t == TransmissionType.Jump && gameObject.GetComponentInChildren(typeof(IJumper)) == null)
             return false;
 
-        if (t == TransmissionType.Move && gameObject.GetComponent(typeof(IMover)) == null)
+        if (t == TransmissionType.Move && gameObject.GetComponentInChildren(typeof(IMover)) == null)
             return false;
 
         return true;
