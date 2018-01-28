@@ -111,10 +111,15 @@ public class Transmitter : MonoBehaviour
 
                     //Grant the appropriate action controller of the receive to the sender.
                     if (type == TransmissionType.Jump)
+                    {
+                        GameController.S.jumpText.color = Color.green;
                         InputManager.JumpingController = InputManager.PlayerMovementController;
+                    }
+                        
 
                     if (type == TransmissionType.Move)
                     {
+                        GameController.S.moveText.color = Color.green;
                         InputManager.MovingController.StopMovement();
                         InputManager.MovingController = InputManager.PlayerMovementController;
                     }

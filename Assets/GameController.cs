@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -10,6 +11,14 @@ public class GameController : MonoBehaviour {
     private AudioSource music;
 
     public AdvancedMovementController playerRef;
+
+    public GameObject titleGui;
+    public GameObject buttonDisplay;
+
+    public Text moveText;
+    public Text jumpText;
+
+    public Canvas canvas;
 
     private void Awake()
     {
@@ -22,14 +31,24 @@ public class GameController : MonoBehaviour {
             S = this;
         }
 
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
         music = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    { 
+        // initialize gui
+        buttonDisplay.SetActive(false);
+        moveText.color = Color.green;
+        jumpText.color = Color.green;
+
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Jump") && SceneManager.GetActiveScene().buildIndex == 0)
         {
+            titleGui.SetActive(false);
             LoadNextLevel();
             music.Play();
         }
@@ -41,9 +60,13 @@ public class GameController : MonoBehaviour {
 
     public void LoadNextLevel() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        moveText.color = Color.green;
+        jumpText.color = Color.green;
     }
 
     public void RestartLevel() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        moveText.color = Color.green;
+        jumpText.color = Color.green;
     }
 }

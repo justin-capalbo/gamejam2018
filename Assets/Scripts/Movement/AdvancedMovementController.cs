@@ -393,6 +393,7 @@ private void GravityActive(bool state)
     {
         if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            GameController.S.buttonDisplay.SetActive(true);
             StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
@@ -401,6 +402,10 @@ private void GravityActive(bool state)
         }
         else
         {
+            if(!advancedMovementState.recalling)
+            {
+                GameController.S.buttonDisplay.SetActive(false);
+            }            
             currentParameters.hMovementSpeed = currentParameters.walkSpeed;
             advancedMovementState.broadcasting = false;
             movementPermissions.jumpEnabled = true;
@@ -414,11 +419,16 @@ private void GravityActive(bool state)
     {
         if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            GameController.S.buttonDisplay.SetActive(true);
             advancedMovementState.recalling = true;
             movementPermissions.jumpEnabled = false;
         }
         else
         {
+            if (!advancedMovementState.broadcasting)
+            {
+                GameController.S.buttonDisplay.SetActive(false);
+            }
             advancedMovementState.recalling = false;
             movementPermissions.jumpEnabled = true;
         }

@@ -36,10 +36,15 @@ public class TransmissionBullet : MonoBehaviour
 
                 //Grant the appropriate action controller of the receive to the sender.
                 if (TransmissionType == TransmissionType.Jump)
+                {
+                    GameController.S.jumpText.color = Color.white;
                     Sender.InputManager.JumpingController = (IJumper)receiver.gameObject.GetComponentInChildren(typeof(IJumper));
+                }
+                    
 
                 if (TransmissionType == TransmissionType.Move)
                 {
+                    GameController.S.moveText.color = Color.white;
                     Sender.InputManager.MovingController.StopMovement();
                     Sender.InputManager.MovingController = (IMover)receiver.gameObject.GetComponentInChildren(typeof(IMover));
                 }
