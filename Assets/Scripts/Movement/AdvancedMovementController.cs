@@ -348,12 +348,6 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
  
  	}
 
-    private void StopMovement()
-    {
-        basicMovementController.SetHorizontalForce(0);
-        basicMovementController.SetVerticalForce(0);
-    }
-
 /// <summary>
 /// Activates or desactivates the gravity for this character only.
 /// </summary>
