@@ -34,7 +34,11 @@ public class Receiver : MonoBehaviour
     public bool ReceiveTransmission(TransmissionType t)
     {
         ActionBank.AddAction(t);
-
+        Animator anim = GetComponentInParent<Animator>();
+        if (anim && !gameObject.CompareTag("Player"))
+        {
+            anim.speed *= 3f;
+        }
         return true;
     }
 }

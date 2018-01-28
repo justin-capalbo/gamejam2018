@@ -109,13 +109,18 @@ public class Transmitter : MonoBehaviour
                     foreignReceiver.ActionBank.RemoveAction(type);
                     foreignReceivers.Remove(type);
 
+                    Animator anim = foreignReceiver.GetComponentInParent<Animator>();
+                    if (anim)
+                    {
+                        anim.speed /= 3f;
+                    }
+
                     //Grant the appropriate action controller of the receive to the sender.
                     if (type == TransmissionType.Jump)
                     {
                         GameController.S.jumpText.color = Color.green;
                         InputManager.JumpingController = InputManager.PlayerMovementController;
                     }
-                        
 
                     if (type == TransmissionType.Move)
                     {

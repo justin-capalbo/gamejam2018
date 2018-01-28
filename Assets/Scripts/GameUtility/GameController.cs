@@ -57,9 +57,21 @@ public class GameController : MonoBehaviour {
             LoadNextLevel();
             music.Play();
         }
-
+        
         if (Input.GetButtonDown("Cancel"))
+            QuitGame();
+    }
+
+    private void QuitGame()
+    {
+        // save any game data here
+        #if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
             Application.Quit();
+        #endif
     }
 
     public void LoadLevel(string name) {
@@ -70,6 +82,12 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         moveText.color = Color.green;
         jumpText.color = Color.green;
+
+        if (SceneManager.GetActiveScene().buildIndex + 1 == 8)
+        {
+            controlsText.enabled = false;
+            helpText.enabled = false;
+        }
     }
 
     public void RestartLevel() {
