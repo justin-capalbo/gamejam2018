@@ -31,11 +31,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	}
 
 	//reference to basic movement controller
-	protected BasicMovementController basicMovementController;
+	public BasicMovementController basicMovementController;
 	// storage for overriding behavior parameters
 	private AdvancedMovementParameters overrideParameters;
 	//animator
-	private Animator animatorReference;
+	public Animator animatorReference;
 	// storage for original gravity and timer
 	private float originalGravity;
 

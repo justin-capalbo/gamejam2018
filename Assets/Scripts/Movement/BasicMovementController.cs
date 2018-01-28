@@ -420,7 +420,7 @@ public class BasicMovementController : MonoBehaviour {
 			// we check if the character is standing on a moving platform
 			standingOn=hitsStorage[smallestDistanceIndex].collider.gameObject;
 
-			IMover movingPlatform = (IMover)hitsStorage[smallestDistanceIndex].collider.GetComponentInChildren(typeof(IMover));
+			/*IMover movingPlatform = (IMover)hitsStorage[smallestDistanceIndex].collider.GetComponentInChildren(typeof(IMover));
 			basicMovementState.onAMovingPlatform=false;
 			if (movingPlatform!=null)
 			{
@@ -432,7 +432,7 @@ public class BasicMovementController : MonoBehaviour {
 			else
 			{
 				movingPlatformsCurrentGravity=0;
-			}
+			}*/
 		}
 		else
 		{
