@@ -12,7 +12,9 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 	public AdvancedMovementParameters currentParameters{get{return overrideParameters ?? defaultParameters;}}
 	/// the permissions associated to the character
 	public AdvancedMovementPermissions movementPermissions ;
- 
+
+    public AudioClip jumpSound;
+
     /// is true if the character can jump
     public bool jumpAuthorized 
 	{ 
@@ -224,9 +226,11 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
         basicMovementController.SetVerticalForce(normalizedVerticalSpeed * currentParameters.vMovementSpeed);
     }
 
-
-
-
+    private void StopMovement()
+    {
+        basicMovementController.SetHorizontalForce(0);
+        basicMovementController.SetVerticalForce(0);
+    }
 
     /** JUMPING **/
 
@@ -299,7 +303,8 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
 		jumpButtonPressed=true;
 		jumpButtonReleased=false;
 		
-		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));	
+		basicMovementController.SetVerticalForce(Mathf.Sqrt( 2f * currentParameters.jumpHeight * Mathf.Abs(basicMovementController.currentParameters.gravity) ));
+        AudioSource.PlayClipAtPoint(jumpSound,transform.position);
 	}
 	
 	/// <summary>
@@ -353,6 +358,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     {
         if ((broadcast > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.canMoveFreely = false; //<<OAKWOOD ADDED>>
             advancedMovementState.broadcasting = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
@@ -374,6 +380,7 @@ public class AdvancedMovementController : MonoBehaviour, IMover, IJumper {
     {
         if ((recall > 0) && (basicMovementController.basicMovementState.isGrounded) && (movementPermissions.broadcastEnabled))
         {
+            StopMovement(); //<<OAKWOOD ADDED>>
             advancedMovementState.recalling = true;
             currentParameters.hMovementSpeed = currentParameters.broadcastWalkSpeed;
             movementPermissions.jumpEnabled = false;

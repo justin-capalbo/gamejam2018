@@ -25,17 +25,23 @@ public class Transmitter : MonoBehaviour
     private float bulletSpeed = 10f; //<<OAKWOOD ADDED>>
     [SerializeField]
     private GameObject tPointer; //<<OAKWOOD ADDED>>
-        
+
+    private AudioSource transmittingSound;  //<<OAKWOOD ADDED>> 
+
     public void Awake()
     {
         MyActionBank = GetComponent<ActionBank>();
         MyReceiver = GetComponent<Receiver>();
         InputManager = GetComponent<PlayerInputManager>();
+        transmittingSound = GetComponent<AudioSource>();
     }
-
+        
     //Only called if we are broadcasting
     public void HandleBroadcast(PlayerInputState input) 
     {
+        if (!transmittingSound.isPlaying) //<<OAKWOOD ADDED>> 
+            transmittingSound.Play();        
+        
         //<<OAKWOOD ADDED>> 
         // Handle targeting visual aid
         // Should disappear when player is not actively aiming with stick
@@ -48,9 +54,7 @@ public class Transmitter : MonoBehaviour
             tPointer.transform.rotation = Quaternion.Slerp(tPointer.transform.rotation, Quaternion.Euler(0,0,targetAngle), 10f * Time.deltaTime);
         } 
         else
-            tPointer.SetActive(false);
-
-       
+            tPointer.SetActive(false);       
 
         // Acquire vector for shot
         var targetVector = new Vector2(input.Horizontal,input.Vertical).normalized * bulletSpeed;
@@ -62,8 +66,7 @@ public class Transmitter : MonoBehaviour
             t.TransmissionType = TransmissionType.Jump;
             t.Sender = this;
             t.GetComponent<Rigidbody2D>().velocity = targetVector;
-            StartCoroutine(Cooldown());
-            tPointer.SetActive(false);
+            StartCoroutine(Cooldown());            
         }
 
         if (input.TransmitMove && CanTransmit(TransmissionType.Move) && targetVector != new Vector2(0,0)) //<<OAKWOOD ADDED>>
@@ -74,7 +77,6 @@ public class Transmitter : MonoBehaviour
             t.Sender = this;
             t.GetComponent<Rigidbody2D>().velocity = targetVector;
             StartCoroutine(Cooldown());
-            tPointer.SetActive(false);
         }
 
     }
