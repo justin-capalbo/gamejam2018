@@ -300,8 +300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transmissionProjectile: {fileID: 114361128884116174, guid: 160bbdebb87527448bff11d7fdd72019,
     type: 2}
-  recallProjectile: {fileID: 114808760863688612, guid: f06ff7457835fcf499b8a5639f0459d6,
-    type: 2}
   TransmitCooldown: 1
   bulletSpeed: 10
   tPointer: {fileID: 1845889103289800}
@@ -330,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTransmissions: 0000000001000000
   ValidTransmissions: 
-  MaxTotalActions: 1
+  MaxTotalActions: 2
 --- !u!212 &212031416956619416
 SpriteRenderer:
   m_ObjectHideFlags: 1
