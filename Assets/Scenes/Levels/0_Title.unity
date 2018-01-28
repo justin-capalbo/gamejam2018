@@ -165,7 +165,7 @@ Prefab:
     - target: {fileID: 224381326481924734, guid: 12c19659065160542ac7a9cdebcabc7a,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -133.6
+      value: -137.5
       objectReference: {fileID: 0}
     - target: {fileID: 224381326481924734, guid: 12c19659065160542ac7a9cdebcabc7a,
         type: 2}
@@ -175,14 +175,14 @@ Prefab:
     - target: {fileID: 224381326481924734, guid: 12c19659065160542ac7a9cdebcabc7a,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 182.4
+      value: 174.6
       objectReference: {fileID: 0}
     - target: {fileID: 114012582284284196, guid: 12c19659065160542ac7a9cdebcabc7a,
         type: 2}
       propertyPath: m_Text
       value: "Broadcast Method: \n- Hold RIGHT TRIGGER\n- Aim with LEFT STICK\n- Press
         A or Y\n\nRecall Method:\n- Hold LEFT TRIGGER\n- Press A or Y\n\nQuit Game:\n-
-        Alt + F4 - Sorry :(\n"
+        Esc\n"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12c19659065160542ac7a9cdebcabc7a, type: 2}
