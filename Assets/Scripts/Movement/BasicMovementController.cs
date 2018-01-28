@@ -340,7 +340,7 @@ public class BasicMovementController : MonoBehaviour {
 		{
 			basicMovementState.isFalling = false;
 		}
-		
+        
 		if ((currentParameters.gravity > 0) && (!basicMovementState.isFalling))
 			return;
 		
@@ -365,7 +365,7 @@ public class BasicMovementController : MonoBehaviour {
 		{			
 			Vector2 rayOriginPoint = Vector2.Lerp(verticalRayCastFromLeft,verticalRayCastToRight,(float)i/(float)(numberOfVerticalRays-1));
 			
-			if ((newPosition.y>0) && (!basicMovementState.wasGroundedLastFrame))
+			if (((newPosition.y>0) && (!basicMovementState.wasGroundedLastFrame)) || _speed.y > 0 )
 				hitsStorage[i] = BasicMovementController.RayCast (rayOriginPoint,-Vector2.up,rayLength,platformMask & ~edgeColliderPlatformMask,true,Color.blue);	
 			else
 				hitsStorage[i] = BasicMovementController.RayCast (rayOriginPoint,-Vector2.up,rayLength,platformMask,true,Color.blue);					
@@ -434,8 +434,7 @@ public class BasicMovementController : MonoBehaviour {
 	/// If we're in the air and moving up, we cast rays above the character's head to check for collisions
 	/// </summary>
 	private void CastRaysAbove()
-	{
-		
+	{		
 		if (basicMovementState.isGrounded)
 			return;
 		
