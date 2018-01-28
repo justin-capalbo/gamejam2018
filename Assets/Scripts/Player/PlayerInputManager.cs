@@ -55,8 +55,7 @@ public class PlayerInputManager: MonoBehaviour
         
         if (!PlayerMovementController.advancedMovementState.broadcasting)
         {
-            MovingController.Move(input.Horizontal, input.Vertical);
-            
+            MovingController.Move(input.Horizontal, input.Vertical);            
 
             if (!PlayerMovementController.advancedMovementState.recalling)
                 JumpingController.Jump(input.JumpDown, input.JumpUp);
