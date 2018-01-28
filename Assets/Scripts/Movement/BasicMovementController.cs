@@ -420,13 +420,13 @@ public class BasicMovementController : MonoBehaviour {
 			// we check if the character is standing on a moving platform
 			standingOn=hitsStorage[smallestDistanceIndex].collider.gameObject;
 
-			PathFollow movingPlatform = hitsStorage[smallestDistanceIndex].collider.GetComponent<PathFollow>();
+			IMover movingPlatform = (IMover)hitsStorage[smallestDistanceIndex].collider.GetComponentInChildren(typeof(IMover));
 			basicMovementState.onAMovingPlatform=false;
 			if (movingPlatform!=null)
 			{
 				movingPlatformsCurrentGravity=movingPlatformsGravity;
                 basicMovementState.onAMovingPlatform=true;
-				positionTransform.Translate(movingPlatform.currentSpeed*Time.deltaTime);
+				positionTransform.Translate(movingPlatform.GetSpeed()*Time.deltaTime);
 				newPosition.y = 0;					
 			}
 			else
