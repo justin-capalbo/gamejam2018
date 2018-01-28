@@ -286,6 +286,21 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114961192221114658, guid: f50a0680b857f184a9a51c75d0ad1733,
+        type: 2}
+      propertyPath: hMovementSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961192221114658, guid: f50a0680b857f184a9a51c75d0ad1733,
+        type: 2}
+      propertyPath: vMovementSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961192221114658, guid: f50a0680b857f184a9a51c75d0ad1733,
+        type: 2}
+      propertyPath: jumpHeight
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f50a0680b857f184a9a51c75d0ad1733, type: 2}
   m_IsPrefabParent: 0
