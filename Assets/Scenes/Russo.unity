@@ -152,13 +152,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114115459082498686, guid: f50a0680b857f184a9a51c75d0ad1733,
-        type: 2}
-      propertyPath: defaultParameters.gravity
-      value: -15
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114952414802503780, guid: f50a0680b857f184a9a51c75d0ad1733, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f50a0680b857f184a9a51c75d0ad1733, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &391010219
@@ -194,28 +188,6 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 3
   m_ColliderType: 1
---- !u!1 &536780621 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1436718083374066, guid: f50a0680b857f184a9a51c75d0ad1733,
-    type: 2}
-  m_PrefabInternal: {fileID: 307687076}
---- !u!114 &536780623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 536780621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e3af3e8f78c3734d99bfe09ab27298c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basicMovementController: {fileID: 1446100494}
-  hMovementSpeed: 2
-  vMovementSpeed: 2
-  jumpHeight: 3
-  parentTransform: {fileID: 1446100497}
-  returnSpeed: 0.025
 --- !u!1 &557196071
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,17 +269,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1446100494 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114115459082498686, guid: f50a0680b857f184a9a51c75d0ad1733,
-    type: 2}
-  m_PrefabInternal: {fileID: 307687076}
-  m_Script: {fileID: 11500000, guid: 0067919604687b04cb313d6721048810, type: 3}
---- !u!4 &1446100497 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4484093325190498, guid: f50a0680b857f184a9a51c75d0ad1733,
-    type: 2}
-  m_PrefabInternal: {fileID: 307687076}
 --- !u!1001 &1608007116
 Prefab:
   m_ObjectHideFlags: 0
@@ -3687,7 +3648,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 000000bf0000003f0000000000000000000000000000003f0000003f000000000000000000000000000000bf000000bf0000000000000000000000000000003f000000bf000000000000000000000000
+      _typelessdata: 000000bf0000003f00000000000000000000803f0000003f0000003f000000000000803f0000803f000000bf000000bf0000000000000000000000000000003f000000bf000000000000803f00000000
     textureRect:
       serializedVersion: 2
       x: 0
