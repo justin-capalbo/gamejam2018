@@ -60,7 +60,10 @@ public class PlatformController : MonoBehaviour, IJumper, IMover
         currentHSpeed = normalizedHorizontalSpeed * hMovementSpeed;
         basicMovementController.SetHorizontalForce(currentHSpeed);
 
-        if(playerMovement.standingOn == this.gameObject &&
+        if (!playerMovement)
+            playerMovement = GameObject.FindWithTag("Player").GetComponent<BasicMovementController>();
+
+        if (playerMovement.standingOn == this.gameObject &&
             playerMovement.basicMovementState.isGrounded)
         {
             playerMovement.SetHorizontalForce(currentHSpeed);
